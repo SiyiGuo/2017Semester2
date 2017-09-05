@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>project1-skeleton</name>
+	<comment></comment>
+	<projects>
+	</projects>
+	<buildSpec>
+		<buildCommand>
+			<name>org.eclipse.jdt.core.javabuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+	</buildSpec>
+	<natures>
+		<nature>org.eclipse.jdt.core.javanature</nature>
+	</natures>
+	<variableList>
+		<variable>
+			<name>LWJGL</name>
+			<value>file:/C:/Users/elmcm/eclipse/lwjgl-2.9.3/lwjgl-2.9.3/native/windows/lwjgl64.dll</value>
+		</variable>
+	</variableList>
+</projectDescription>
