@@ -1,0 +1,112 @@
+\documentclass[11pt]{article}
+
+%page setup
+\pagestyle{empty}
+\textwidth 166mm
+\textheight 256mm
+\topmargin -12mm
+\oddsidemargin -2mm
+\evensidemargin -2mm
+
+%logic command setup
+\newcommand{\impl}{\mathbin{\Rightarrow}}
+
+\begin{document}
+\subsection*{Challenge1}
+Defining the following two proposition.
+\[
+\begin{array}{lr}
+    a:\ A\ is\ knight
+\\  b:\ B,\ C\ are\ knaves
+\\  a \impl b:\ if\ A\ is\ a\ knight\ then\ his\ two\ friends\ B\ and\ C\ here\ are\ knaves
+\end{array}
+\]
+We then generating the truth table as follows:
+\[
+\begin{array}{lr}
+\\  a\ \ \ \ \ \ \ \ \ \ \ \ a \impl b\ \ \ \ \ \ \ \ \ \ \ \ b\ \ \ \ \ \ Follow\ logic\ rule?
+\\  0\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0 \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0\ \ \ \ \ \ \ \ No
+\\  0\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0 \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 1\ \ \ \ \ \ \ \ No
+\\  1\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 1 \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0\ \ \ \ \ \ \ \ No
+\\  1\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 1 \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 1\ \ \ \ \ \ \ \ Yes
+\end{array}
+\]
+From the table we have the following situation:
+
+if $a$ is false, that means A is not a knight. So he has to tells lies. This means the statement $a \impl b$ has to be false. However if $a$ is false then $a \impl b$ cannot be false in any case. Therefore, $a$ cannot be false, so A has to be a knight.
+
+Now Since A is a knight, $a \impl b$ has to be true, because knight always tells the truth. Since $a$ and $a \impl b$ are both true, statement $b$ has to be true. Therefore, B and C are Knaves.
+\subsection*{Challenge 2}
+\begin{enumerate}
+\item
+The CNF of $\varphi$ is:
+\[
+\begin{array}{lr}
+    \neg(((P \impl S) \land (Q \impl R) \land (R \impl P) )\impl S))
+\\  \neg(\neg((P \impl S) \land (Q \impl R) \land (R \impl P) ) \lor S)
+\\  ((\neg P \lor S) \land (\neg Q \lor R) \land (\neg R \lor P)) \land \neg S)
+\\  \neg P \land \neg S \land (\neg Q \lor R) \land (\neg R \lor P)
+\\  \neg P \land \neg S \land (\neg Q \lor R) \land \neg R
+\\  \neg P \land \neg S \land \neg Q \land \neg R
+\end{array}
+\]
+\item
+$\varphi$ is non-valid by assigning $P, S, R, Q$ to False.
+
+So the formula would become:
+\[
+\begin{array}{lr}
+    ((F \impl F) \land (F \impl F) \land (F \impl F)) \impl F
+\\  (T \land T \land T \impl F)
+\\  False
+\end{array}
+\]
+\item
+The CNF of $\psi$ in CNF form is:
+\[
+\begin{array}{lr}
+    \neg((((P \lor Q) \impl S) \land (\neg P \impl (R \impl Q)) \land (R \lor S)) \impl S)
+\\  \neg(\neg(((P \lor Q) \impl S) \land (\neg P \impl (R \impl Q)) \land (R \lor S)) \lor S)
+\\  ((P \lor Q) \impl S) \land (\neg P \impl (R \impl Q)) \land (R \lor S)) \land \neg S
+\\  (\neg(P \lor Q) \lor S) \land 
+    (P \lor (\neg R \lor Q)) \land 
+    (R \lor S) \land \neg S
+\\  (\neg P \land \neg Q \land \neg S) \land
+    (P \lor (\neg R \lor Q)) \land
+    (R \lor S)
+\\  \neg P \land \neg Q \land \neg S \land
+    (P \lor (\neg R \lor Q)) \land R
+\end{array}
+\]
+\item
+We prove $\psi$ is valid by deriving $\bot$ using refutation: 
+\end{enumerate}
+
+\subsection*{Challenge3}
+The non-valid case is when we set following interpretation:
+\[
+\begin{array}{lr}
+    P(x,y):\ x\ does\ not\ equal\ to\ y
+\\  h(x):\ return\ x\ itself
+\end{array}
+\]
+with the domain of x and y to be:
+\[
+\begin{array}{lr}
+    x's\ domain\ is\ all\ even\ number\ in\ R
+\\  y's\ domain\ is\ all\ odd\ number\ in\ R
+\end{array}
+\]
+So the equation would become:
+\[
+\begin{array}{lr}
+    [(False \impl False) \impl (False \land False)]
+\\  True \impl Flase \equiv False
+\end{array}
+\]
+Now the Satisfiable case is we set $h(x,y) = True$.\\
+So the formula would be $(True \impl True) \impl (True \land True)$ which is True.\\
+Therefore the formula is non-valid but satisfiable.
+\subsection*{Challenge4}
+
+\end{document}

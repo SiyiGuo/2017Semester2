@@ -1,0 +1,158 @@
+\documentclass[11pt]{article}
+
+% We use PSTricks to draw resolution trees -- pretty cumbersome.
+% It also does not like pdflatex.
+% Use: latex file.tex; dvips file.dvi; ps2pdf file.ps
+
+\usepackage{pstricks,pst-node,pst-tree}
+\newpsobject{showgrid}{psgrid}{subgriddiv=1,griddots=10,gridlabels=6pt}
+\usepackage{amssymb}
+
+\pagestyle{empty}
+\textwidth	166mm
+\textheight	256mm
+\topmargin	-12mm
+\oddsidemargin	-2mm
+\evensidemargin	-2mm
+
+\newcommand{\impl}{\mathbin{\Rightarrow}}
+\newcommand{\biim}{\mathbin{\Leftrightarrow}}
+
+\begin{document}
+\begin{enumerate}
+\setcounter{enumi}{43}
+\item
+Work through the following more substantial resolution
+example in your own time
+and make sure that you understand each step.
+You only need to discuss this in a tutorial or the LMS Discussion 
+Forum if there are steps you don't understand.
+
+Dowsing, Rayward-Smith and Walter (see {\bf Readings Online})
+give the following example of a non-trivial proof using resolution.
+It is concerned with group theory.
+A \emph{group} is a set endowed with a binary operation $\circ$.
+If we use $P(x,y,z)$ to mean $x \circ y = z$ then we can
+write the so-called \emph{group axioms} as follows:
+\[
+\begin{array}{lr}
+   \forall x \forall y \exists z (P(x,y,z)) & \mbox{(closure)}
+\\ \forall x, y, z, u, v, w
+        \left([P(x,y,u) \land P(y,z,v)] \impl [P(x,v,w) \biim P(u,z,w)]\right)
+   & \mbox{(associativity)}
+\\ \exists x \forall y (P(x,y,y) \land \exists z (P(z,y,x)))
+   & \mbox{(left identity}
+\\ & \mbox{and left inverse)}
+\end{array}
+\]
+Notice that the associativity axiom says that if $x \circ y = u$ and
+$y \circ z = v$ then $x \circ v = u \circ z$.
+In other words, $x \circ (y \circ z) = (x \circ y) \circ z$.
+The last axiom says that there is some special element $x$ in
+the set, with the property that $x \circ y = y$ for all $y$
+(that is, this element is a \emph{neutral element} for $\circ$).
+Moreover, for each $y$ there is a $z$ such that $z \circ y$
+yields that special element
+(in other words, each element has a \emph{left inverse}).
+For an example of a group, consider the set $\mathbb{Z}$
+of integers, endowed with the operation $+$.
+
+We can translate the group axioms to clausal form.
+The first axiom (closure) becomes
+\[
+  \{P(x,y,f(x,y))\}
+\]
+The second axiom (associativity) produces two clauses:
+\[
+\begin{array}{l}
+   \{\neg P(x,y,u), \neg P(y,z,v), \neg P(x,v,w), P(u,z,w)\}
+\\ \{\neg P(x,y,u), \neg P(y,z,v), \neg P(u,z,w), P(x,v,w)\}
+\end{array}
+\]
+
+The last axiom (left identity and left inverse) also produces two clauses:
+\[
+\begin{array}{l}
+   \{P(a,y,y)\}
+\\ \{P(g(y),y,a)\}
+\end{array}
+\]
+Suppose we want to prove that every element of a group also
+has a right inverse.
+That is, we want to prove
+\[
+  \exists x \forall y \exists z (P(y,z,x))
+\]
+from the axioms.
+To do this we first negate our formula, obtaining:
+\[
+  \forall x \exists y \forall z (\neg P(y,z,x))
+\]
+In clausal form this becomes $\{\neg P(h(x),z,x)\}$.
+On the next page is a proof by resolution.
+It is a mechanical proof of a non-trivial theorem.
+When there is ambiguity, I have used underlining to show which
+atom takes part in the resolution step.
+
+Make sure you understand each resolution step.
+Did the refutation make use of all the axioms?
+If you try to do the proof on your own without looking at the proof
+above, you will find that there are many blind alleys
+(most of them will end in failure due to the occur check).
+So you will most likely take a long time, and do lots of back-tracking.
+With a computer of course we find the refutation in a flash.
+
+Notice how clauses have had their variables renamed to avoid name clashes.
+Try to track how the variables $x'$ and $z'$ from the original
+query get bound during this proof.
+
+\pagebreak
+\begin{center}
+\begin{pspicture}(0,-1)(12,18) % \showgrid
+\psset{nodesepA=2pt,nodesepB=2pt,linecolor=black,arrows=-,yunit=1.25cm}
+
+\rput[c](3,14){\rnode[c]{N1}{$\neg P(x,y,u), \neg P(y,z,v), \neg P(x,v,w), P(u,z,w)$}}
+\rput[c](10,14){\rnode[c]{N2}{$\neg P(h(x'),z',x')$}}
+\rput[c](5,12){\rnode[c]{N3}{$\neg P(x,y,h(x')), \neg P(y,z',v), \underline{\neg P(x,v,x')}$}}
+\rput[c](11,12){\rnode[c]{N4}{$P(g(u),u,a)$}}
+\rput[c](7,10){\rnode[c]{N5}{$\neg P(g(u),y,h(a)), \neg P(y,z',u)$}}
+\rput[c](12.3,10){\rnode[c]{N6}{$P(a,u',u')$}}
+\rput[c](2.2,8){\rnode[c]{N7}{$\neg P(x_2,y_2,u_2), \neg P(y_2,z_2,v_2), \neg P(u_2,z_2,w_2), P(x_2,v_2,w_2)$}}
+\rput[c](9,8){\rnode[c]{N8}{$~~\neg P(g(u'),a,h(a)$}}
+\rput[c](3.9,6){\rnode[c]{N9}{$\neg P(g(u'),y_2,u_2), \neg P(y_2,z_2,a), \underline{\neg P(u_2,z_2,h(a))}$}}
+\rput[c](11,6){\rnode[c]{N10}{$P(a,v',v')$}}
+\rput[c](5.6,4){\rnode[c]{N11}{$\underline{\neg P(g(u'),y_2,a)}, \neg P(y_2,h(a),a)$}}
+\rput[c](11,4){\rnode[c]{N12}{$P(g(u_3),u_3,a)$}}
+\rput[c](7.3,2){\rnode[c]{N13}{$\neg P(u_3,h(a),a)$}}
+\rput[c](12,2){\rnode[c]{N14}{$P(g(u_4),u_4,a)$}}
+\rput[c](9,0){\rnode[c]{N15}{$\bot$}}
+
+\ncline{N1}{N3}
+\ncline{N2}{N3}
+\ncline{N3}{N5}
+\ncline{N4}{N5}
+\ncline{N5}{N8}
+\ncline{N6}{N8}
+\ncline{N7}{N9}
+\ncline{N8}{N9}
+\ncline{N9}{N11}
+\ncline{N10}{N11}
+\ncline{N11}{N13}
+\ncline{N12}{N13}
+\ncline{N13}{N15}
+\ncline{N14}{N15}
+
+\rput[c](5.5,13){$\begin{array}{l}u=h(x')\\w=x'\\z=z'\enda{array}$}
+\rput[c](7.5,11){$\begin{array}{l}x=g(u)\\v=u\\x'=a\end{array}$}
+\rput[c](9.1,9){$\begin{array}{l}y=a\\z'=u'\\u=u'\end{array}$}
+\rput[c](4.4,7){$\begin{array}{l}x_2=g(u')\\v_2=a\\w_2=h(a)\end{array}$}
+\rput[c](6.2,5){$\begin{array}{l}u_2=a\\v'=h(a)\\z_2=h(a)\end{array}$}
+\rput[c](7.7,3){$\begin{array}{l}u'=u_3\\y_2=u_3\end{array}$}
+\rput[c](9.4,1.2){$\begin{array}{l}u_3=g(h(a))\\u_4=h(a)\end{array}$}
+
+\end{pspicture}
+\end{center}
+
+\end{enumerate}
+
+\end{document}

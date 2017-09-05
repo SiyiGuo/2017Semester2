@@ -1,0 +1,97 @@
+\documentclass[11pt]{article}
+\usepackage[top=16mm, bottom=12mm, left=20mm, right=20mm]{geometry}
+\pagestyle{empty}
+
+
+\usepackage{tikz}
+\usetikzlibrary{calc}
+
+
+\title{Tikz resolution tree example}
+\author{Matthew Farrugia-Roberts}
+\date{August 21, 2017}
+
+
+\begin{document}
+
+% title
+\begin{center}
+    {\LARGE Tikz resolution tree example}\\[2ex]
+    {\large Matthew Farrugia-Roberts}\\[1ex]
+    {\large August 21, 2017}
+\end{center}
+
+
+
+% resolution tree
+\begin{center}
+\begin{tikzpicture}[scale=3, every node/.style={align=center}]
+    %               '--.--'            |
+    % this spaces clauses nicely.      '-> this lets us have line breaks within
+    % change number to resize the tree        nodes (useful for big clauses and 
+    %                                                                 unifiers)
+
+    % clauses and layout
+    % ------------------
+    % state your clauses here in the format:
+    % 
+    %                \node (name) at (x, y) {$clause$}; <--.
+    %         (x is how far left,  <--'--'               (don't forget the ';')
+    %          y is how far upwards)
+    \node (a) at (1, 7) {$\neg P(x, y, u), \neg P(y, z, v), \neg P(x, v, w),$
+                         $P(u, z, w) $};
+    \node (b) at (3, 7) {$\neg P(h(x'), z', x')$};
+    \node (c) at (2, 6) {$\neg P(x,y,h(x')), \neg P(y,z',v), \neg P(x,v,x')$};
+    \node (d) at (4, 6) {$P(g(u),u,a)$};
+    \node (e) at (3, 5) {$\neg P(g(u),y,h(a)), \neg P(y,z',u)$};
+    \node (f) at (5, 5) {$P(a,u',u')$};
+    \node (g) at (4, 4) {$\neg P(g(u'),a,h(a))$};
+                        % tip: use two $$ AND \\ to break a long clause in pdf:
+    \node (h) at (2, 4) {$\neg P(x_2,y_2,u_2), \neg P(y_2,z_2,v_2),$\\
+                         $\neg P(u_2,z_2,w_2), P(x_2,v_2,w_2)$};
+                        % tip: use two $$ to break a long clause in source only:
+    \node (i) at (3, 3) {$\neg P(g(u'),y_2,u_2), \neg P(y_2,z_2,a),$
+                         $\neg P(u_2,z_2,h(a))$};
+    \node (j) at (1, 3) {$P(a,v',v')$};
+    \node (k) at (2, 2) {$\neg P(g(u'),y_2,a), \neg P(y_2,h(a),a)$};
+    \node (l) at (0, 2) {$P(g(u_3),u_3,a)$};
+    \node (m) at (1, 1) {$\neg P(u_3,h(a),a)$};
+    \node (n) at (3, 1) {$P(g(u_4),u_4,a)$};
+    \node (o) at (2, 0) {$\bot$};
+    
+    % edges and unifiers
+    % ------------------
+    % give a list of pairs of resolving clauses, their resolvent, and their 
+    % unifier, in the following format:
+    %                                          a     b
+    %                      a/b/c/u,    --->     \ u /
+    %                                            \ /
+    %                                             c
+    %
+    % I recommend putting the unifiers in the format:
+    %         $x \mapsto a$ \\ $y \mapsto b$ \\ $z \mapsto c$ \\ ...
+    %
+    \foreach \parentA/\parentB/\resolvent/\unifier in {
+        a/b/c/$u \mapsto h(x')$\\$w \mapsto x'$\\$z \mapsto z'$,
+        c/d/e/$x \mapsto g(u)$\\$v \mapsto u$\\$x' \mapsto a$,
+        e/f/g/$y \mapsto a$\\$z' \mapsto u'$\\$u \mapsto u'$,
+        g/h/i/$x_2 \mapsto g(u')$\\$v_2 \mapsto a$\\$w_2 \mapsto h(a)$,
+        i/j/k/$u_2 \mapsto a$\\$v' \mapsto h(a)$\\$z_2 \mapsto h(a)$,
+        k/l/m/$u' \mapsto u_3$\\$y_2 \mapsto u_3$,
+        m/n/o/$u_3 \mapsto g(h(a))$\\$u_4 \mapsto h(a)$
+    } {
+        \path (\parentA) edge (\resolvent);
+        \path (\parentB) edge (\resolvent);
+        \node (u) at
+            ($ (\parentA)!0.5!(\parentB)!0.43!(\resolvent) $)
+            {\unifier};
+    }
+    % if you want to manually position unifiers, you should create a separate
+    %         \node (u) at (x, y) {unifier};
+    % outside of the above loop (and you can pass in a blank unifier to the
+    % loop, so that it still gives you the edges automatically)
+
+\end{tikzpicture}
+\end{center}
+
+\end{document}
