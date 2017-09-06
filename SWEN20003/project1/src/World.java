@@ -12,18 +12,19 @@ public class World {
 		sprites = Loader.loadSprites(filename);
 		
 		//create player object
-		float[] playerXY = sprites[sprites.length - 1].getXY();
+		float[] playerXY = {sprites[sprites.length - 1].getX(),
+							sprites[sprites.length - 1].getY()};
 		String playerTileType = sprites[sprites.length-1].getTileType();
 		player = new Player(playerTileType, playerXY[0], playerXY[1]);
 	}
 	
 	
 	public void update(Input input, int delta) {
-		
+		player.update(input, delta);
 	}
 	
 	public void render(Graphics g) {
-		for(int i = 0; i < sprites.length - 1; i++) {
+		for(int i = 0; i < sprites.length - 1 ; i++) {
 			sprites[i].render(g);
 		}
 		player.render(g);
