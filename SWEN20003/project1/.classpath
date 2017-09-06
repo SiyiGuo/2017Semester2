@@ -9,7 +9,7 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/Jar Files/lwjgl.jar">
 		<attributes>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="I:/2017Semester2/SWEN20003/Slick Libraries/Windows"/>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="C:/Users/Siyi/Documents/GitHub/2017Semester2/SWEN20003/Slick Libraries/Windows"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/Jar Files/jinput.jar"/>
