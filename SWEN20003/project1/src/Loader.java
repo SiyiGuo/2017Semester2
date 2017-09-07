@@ -60,8 +60,16 @@ public class Loader {
 	}
 	
 	private static float[] tileToScreen(float tileX, float tileY, float width, float height) {
-		float x = (SCREEN_WIDTH - width*TILE_SIZE)/ 2 + tileX*TILE_SIZE;
-		float y = (SCREEN_HEIGHT - height*TILE_SIZE)/ 2 + tileY*TILE_SIZE;
+		/**ince we use draw centre function, we need to add 16 to the coordinate
+		 * As by documentation for draw_Centred
+		 * Draw the image based on it's center
+		 *Parameters:
+		 *x - The x coordinate to place the image's center at
+		 *y - The y coordinate to place the image's center at
+		 */
+	
+		float x = (SCREEN_WIDTH - width*TILE_SIZE)/ 2 + tileX*TILE_SIZE+TILE_SIZE / 2;
+		float y = (SCREEN_HEIGHT - height*TILE_SIZE)/ 2 + tileY*TILE_SIZE+TILE_SIZE / 2;
 		float result[] = {x,y};
 		return result;
 	}

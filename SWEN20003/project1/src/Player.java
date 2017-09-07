@@ -8,19 +8,24 @@ public class Player extends Sprite{
 
 	public void update(Input input, int delta) {
 		if(input.isKeyPressed(Input.KEY_UP)) {
-			this.setY(this.getY() - TILE_SIZE);
+			float move = this.getY() - TILE_SIZE;
+			this.setY(move);
 		}
 		
 		if(input.isKeyPressed(Input.KEY_DOWN)) {
-			this.setY(this.getY() + TILE_SIZE);
+			float move = this.getY() + TILE_SIZE;
+			this.setY(move);
 		}
 		
 		if(input.isKeyPressed(Input.KEY_LEFT)) {
-			this.setX(this.getX() - TILE_SIZE);
+			float move = this.getX() - TILE_SIZE;
+			this.setX(move);
 		}
 			
 		if(input.isKeyPressed(Input.KEY_RIGHT)) {
-			this.setX(this.getX() + TILE_SIZE);
+			float move = this.getX() + TILE_SIZE;
+			this.setX(move);
 		}
+		printInfo();
 	}
 }
