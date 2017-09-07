@@ -52,7 +52,9 @@ public class Loader {
 		}
 		
 		//create object for player model
-		float ScrCoor[] = tileToScreen(Float.parseFloat(level[2][size-1]), Float.parseFloat(level[3][size-1]), width, height);
+		float ScrCoor[] = tileToScreen(Float.parseFloat(level[2][size-1]), 
+									   Float.parseFloat(level[3][size-1]), 
+									   width, height);
 		sprites[size - 1] = new Sprite("player_left", 
 										ScrCoor[0], 
 										ScrCoor[1]);
@@ -74,7 +76,7 @@ public class Loader {
 		return result;
 	}
 	
-	private static String[][] readCSV(String filename){
+	private static String[][] readCSV(String filename){ 
 		ArrayList<String> tile = new ArrayList<String>();
 		ArrayList<String> tileX = new ArrayList<String>();
 		ArrayList<String> tileY = new ArrayList<String>();

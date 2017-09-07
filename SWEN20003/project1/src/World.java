@@ -1,21 +1,30 @@
 
 
+import java.util.Arrays;
+
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 
 public class World {
 	
-	private Sprite[] sprites = null;
+	public static final String MAPFILE = "res/levels/0.lvl";
+	
+	//Create player project
 	private Player player = null;
+	
 	public World() {
-		String filename = "res/levels/0.lvl";
-		sprites = Loader.loadSprites(filename);
+		//Loading Sprites object array
+		//with the last element recorded Player Object Data
+		Sprite.sprites = Loader.loadSprites(MAPFILE);
 		
-		//create player object
-		float[] playerXY = {sprites[sprites.length - 1].getX(),
-							sprites[sprites.length - 1].getY()};
-		String playerTileType = sprites[sprites.length-1].getTileType();
+		//create player object from the last element of sprites
+		float[] playerXY = {Sprite.sprites[Sprite.sprites.length - 1].getX(),
+						Sprite.sprites[Sprite.sprites.length - 1].getY()};
+		String playerTileType = Sprite.sprites[Sprite.sprites.length-1].getTileType();
 		player = new Player(playerTileType, playerXY[0], playerXY[1]);
+		
+		//delete the last object in array as new Player Object has created
+		Sprite.sprites = Arrays.copyOf(Sprite.sprites, Sprite.sprites.length - 1);
 	}
 	
 	
@@ -24,8 +33,8 @@ public class World {
 	}
 	
 	public void render(Graphics g) {
-		for(int i = 0; i < sprites.length - 1 ; i++) {
-			sprites[i].render(g);
+		for(int i = 0; i < Sprite.sprites.length; i++) {
+			Sprite.sprites[i].render(g);
 		}
 		player.render(g);
 	}

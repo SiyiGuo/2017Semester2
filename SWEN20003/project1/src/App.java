@@ -13,7 +13,7 @@ import org.newdawn.slick.Input;
 
 /**
  * Main class for the game.
- * Handles initialisation, input and rendering.
+ * Handles initialization, input and rendering.
  */
 public class App extends BasicGame
 {
