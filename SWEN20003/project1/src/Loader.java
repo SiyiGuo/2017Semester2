@@ -13,6 +13,9 @@ public class Loader {
     /** size of the tiles, in pixels */
     public static final int TILE_SIZE = 32;
     
+    public static final String TARGET = "target";
+    public static final String FLOOR = "floor";
+    
 	// Converts a world coordinate to a tile coordinate,
 	// and returns if that location is a blocked tile
 	public static boolean isBlocked(float x, float y) {
@@ -77,6 +80,10 @@ public class Loader {
 	}
 	
 	private static String[][] readCSV(String filename){ 
+		/*in reading CSV, we do the sorting at the same data
+		 * By reading "FLOOR, TARGET" to the front
+		 * And "STONE, WALL, Player" at the end
+		 */
 		ArrayList<String> tile = new ArrayList<String>();
 		ArrayList<String> tileX = new ArrayList<String>();
 		ArrayList<String> tileY = new ArrayList<String>();
@@ -87,6 +94,7 @@ public class Loader {
 		String line = "";
 		String csvSplit = ",";
 		BufferedReader level = null;
+		
 		//read world size
 		try {
 			level = new BufferedReader(new FileReader(filename));
@@ -95,10 +103,21 @@ public class Loader {
 			height = line.split(csvSplit)[1];
 			//read rest element into 3 array
 			while ((line = level.readLine()) != null) {
+				//the first line is tile, the rest two are coordinate
 				String[] linedata = line.split(csvSplit);
-				tile.add(linedata[0]);
-				tileX.add(linedata[1]);
-				tileY.add(linedata[2]);
+				if (linedata[0].equals(FLOOR) | linedata[0].equals(TARGET)) {
+					/*if it is floor or target, we need to render them first
+					 *therefore when reading the data, we add them from the beginning of the list
+					 **/
+					tile.add(0,linedata[0]);
+					tileX.add(0,linedata[1]);
+					tileY.add(0,linedata[2]);
+				}else {
+					//for the rest element, we add as normal
+					tile.add(linedata[0]);
+					tileX.add(linedata[1]);
+					tileY.add(linedata[2]);
+				}
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

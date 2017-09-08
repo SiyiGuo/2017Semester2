@@ -9,6 +9,8 @@ public class Sprite {
     public static final float TILE_SIZE = 32;
     public static final String WALL = "wall";
     public static final String STONE = "stone";
+    public static final String TARGET = "targe";
+    public static final String FLOOR = "floor";
 	
 	//inside Sprite Class we deals with screen coordinate
 	private String tileType = "";
@@ -31,7 +33,7 @@ public class Sprite {
 		y = tileY;
 	}
 	
-	public void update(Input input, int delta) {
+	public void update(int input) {
 		/**
 		 * This update method is created for Stones
 		 * Whereas Player update method is created in player class
@@ -39,22 +41,22 @@ public class Sprite {
 		 * The update for method will only be called
 		 * when it is a valid move
 		 */
-		if(input.isKeyPressed(Input.KEY_UP)) {
+		if(input == Input.KEY_UP) {
 			float moveY = this.getY() - TILE_SIZE;
 			this.setY(moveY);
 		}
 		
-		if(input.isKeyPressed(Input.KEY_DOWN)) {
+		if(input == Input.KEY_DOWN) {
 			float moveY = this.getY() + TILE_SIZE;
 			this.setY(moveY);
 		}
 		
-		if(input.isKeyPressed(Input.KEY_LEFT)) {
+		if(input == Input.KEY_LEFT) {
 			float moveX = this.getX() - TILE_SIZE;
 			this.setX(moveX);
 		}
 			
-		if(input.isKeyPressed(Input.KEY_RIGHT)) {
+		if(input == Input.KEY_RIGHT) {
 			float moveX = this.getX() + TILE_SIZE;
 			this.setX(moveX);
 		}
@@ -65,14 +67,11 @@ public class Sprite {
 	}
 
 	/**
-	 * function used to check whether a move is valid
-	 * @param x
-	 * @param y
-	 * @return
+	 * Helper Functiion from here
 	 */
-	public static boolean pushStone(float x, float y, Input input, int delta) {
+	public static boolean pushStone(float nextX, float nextY, int stoneID, int input) {
 		/*this function take the planning x and y as input
-		 * and check wwhether this stone can be pushed
+		 * and check whether this stone can be pushed
 		 * if successful, return true
 		 * else, return false
 		 */
@@ -80,20 +79,22 @@ public class Sprite {
 			float BlockedX = sprites[i].x;
 			float BlockedY = sprites[i].y;
 			String tileType =sprites[i].tileType; 
-			if (x == BlockedX & y == BlockedY) {
+			if (nextX == BlockedX & nextY == BlockedY) {
 				// if we find the block, we try to push it
 				if (tileType.equals(WALL) | tileType.equals(STONE)) {
 					return false;
-				}else {
-					sprites[i].update(input, delta);
-					return true;
 				}
 			}
 		}
+		sprites[stoneID].update(input);
 		return true;
 	}
 	
-	/**Extra helper function for reading and showing data 
+	
+	
+	
+	/**
+	 * Extra helper function for reading and showing data 
 	 *  
 	 * 
 	 */

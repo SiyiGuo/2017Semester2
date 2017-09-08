@@ -13,88 +13,87 @@ public class Player extends Sprite{
 		 * but also for box
 		 */
 		if(input.isKeyPressed(Input.KEY_UP)) {
-			float moveY = this.getY() - TILE_SIZE;
-			String destination = MoveTo(this.getX(), moveY);
-			if (destination.equals(WALL)) {
+			float nextY = this.getY() - TILE_SIZE;
+			int nextID = findNextID(this.getX(), nextY);
+			if (sprites[nextID].getTileType().equals(WALL)) {
 				//do nothing
-			} else if (destination.equals(STONE)) {
-				float StoneMoveY = moveY - TILE_SIZE;
-				//the push stone
-				//if push successful, we move player
-				if (Sprite.pushStone(this.getX(), StoneMoveY, input, delta)) {
-					this.setY(moveY);
+			} else if (sprites[nextID].getTileType().equals(STONE)) {
+				float stoneNextY = nextY - TILE_SIZE;
+				int stoneID = nextID;
+				if (Sprite.pushStone(this.getX(), stoneNextY, stoneID, Input.KEY_UP)) {
+					this.setY(nextY);
 				}
 			} else {
-				this.setY(moveY);
+				this.setY(nextY);
 			}
 		}
 		
 		if(input.isKeyPressed(Input.KEY_DOWN)) {
-			float moveY = this.getY() + TILE_SIZE;
-			String destination = MoveTo(this.getX(), moveY);
-			if (destination.equals(WALL)) {
+			float nextY = this.getY() + TILE_SIZE;
+			int nextID = findNextID(this.getX(), nextY);
+			if (sprites[nextID].getTileType().equals(WALL)) {
 				//do nothing
-			} else if (destination.equals(STONE)) {
-				float StoneMoveY = moveY - TILE_SIZE;
-				//the push stone
-				//if push successful, we move player
-				if (Sprite.pushStone(this.getX(), StoneMoveY, input, delta)) {
-					this.setY(moveY);
+			} else if (sprites[nextID].getTileType().equals(STONE)) {
+				float stoneNextY = nextY + TILE_SIZE;
+				int stoneID = nextID;
+				if (Sprite.pushStone(this.getX(), stoneNextY, stoneID, Input.KEY_DOWN)) {
+					this.setY(nextY);
 				}
 			} else {
-				this.setY(moveY);
+				this.setY(nextY);
 			}
 		}
 		
 		if(input.isKeyPressed(Input.KEY_LEFT)) {
-			float moveX = this.getX() - TILE_SIZE;
-			String destination = MoveTo(moveX, this.getY());
-			if (destination.equals(WALL)) {
+			float nextX = this.getX() - TILE_SIZE;
+			int nextID = findNextID(nextX, this.getY());
+			if (sprites[nextID].getTileType().equals(WALL)) {
 				//do nothing
-			} else if (destination.equals(STONE)) {
-				float StoneMoveX = moveX - TILE_SIZE;
-				//the push stone
-				//if push successful, we move player
-				if (Sprite.pushStone(StoneMoveX, this.getY(), input, delta)) {
-					this.setX(moveX);
+			} else if (sprites[nextID].getTileType().equals(STONE)) {
+				float stoneNextX = nextX - TILE_SIZE;
+				int stoneID = nextID;
+				if (Sprite.pushStone(stoneNextX, this.getY(), stoneID, Input.KEY_LEFT)) {
+					this.setX(nextX);
 				}
 			} else {
-				this.setX(moveX);
+				this.setX(nextX);
 			}
 		}
 			
 		if(input.isKeyPressed(Input.KEY_RIGHT)) {
-			float moveX = this.getX() + TILE_SIZE;
-			String destination = MoveTo(moveX, this.getY());
-			if (destination.equals(WALL)) {
+			float nextX = this.getX() + TILE_SIZE;
+			int nextID = findNextID(nextX, this.getY());
+			if (sprites[nextID].getTileType().equals(WALL)) {
 				//do nothing
-			} else if (destination.equals(STONE)) {
-				float StoneMoveX = moveX + TILE_SIZE;
-				//the push stone
-				//if push successful, we move player
-				if (Sprite.pushStone(StoneMoveX, this.getY(), input, delta)) {
-					this.setX(moveX);
+			} else if (sprites[nextID].getTileType().equals(STONE)) {
+				float stoneNextX = nextX + TILE_SIZE;
+				int stoneID = nextID;
+				if (Sprite.pushStone(stoneNextX, this.getY(), stoneID, Input.KEY_RIGHT)) {
+					this.setX(nextX);
 				}
 			} else {
-				this.setX(moveX);
+				this.setX(nextX);
 			}
 		}
 	}
 	
-	public String MoveTo(float x, float y) {
+	public int findNextID(float x, float y) {
 		/*this function take the planning x and y as input
-		 * and return true if it is a valid move
-		 * Else return false.
+		 * and return the id in Sprite of your next next
 		 */
-		String tileType = "";
+		int id = -1;
 		for(int i = 0; i < sprites.length; i++) {
 			float BlockedX = sprites[i].getX();
 			float BlockedY = sprites[i].getY();
-			tileType =sprites[i].getTileType(); 
+			String tileType =sprites[i].getTileType(); 
 			if (x == BlockedX & y == BlockedY) {
-				break;
+				id = i;
+				if (tileType.equals(STONE)) {
+					id = i;
+					return id;
+				}
 			}
 		}
-		return tileType;
+		return id;
 	}
 }
