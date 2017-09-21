@@ -5,46 +5,59 @@ import java.util.*;
 
 public class Loader {	
 	
-	
- 	/** screen width, in pixels */
-    public static final int SCREEN_WIDTH = 800;
-    /** screen height, in pixels */
-    public static final int SCREEN_HEIGHT = 600;
-    /** size of the tiles, in pixels */
-    public static final int TILE_SIZE = 32;
     
+	/** TILE **/
+	public static final String FLOOR = "floor";
+	public static final String WALL = "wall";
     public static final String TARGET = "target";
-    public static final String FLOOR = "floor";
+    public static final String CRACKED_WALL = "cracked_wall";
+    public static final String SWITCH = "switch";
+    public static final String DOOR = "door";
     
-	// Converts a world coordinate to a tile coordinate,
-	// and returns if that location is a blocked tile
-	public static boolean isBlocked(float x, float y) {
-		// Default to blocked
-		return true;
-	}
+    /** BLOCK **/
+    public static final String STONE = "stone";
+    public static final String ICE = "ice";
+    public static final String TNT = "tnt";
+    public static final String EXPLOSION = "explosion";
+    
+    /** NPC **/
+    public static final String ROGUE = "rogue";
+    public static final String MAGE = "mage";
+    public static final String SKELETON = "skull";
+    
+    /** Player **/
+    public static final String PLAYER = "player";
+    public static final String PLAYERFILE = "player_left";
+    
 		
 	/**
 	 * Loads the sprites from a given file.
-	 * @param filename
-	 * @return
 	 */
-	public static Sprite[] loadSprites(String filename) {
+	public static Object[][] loadSprites(String filename) {
 		/**level[0] basic data about width, height, size
 		 *level[1,2,3] = [tile, tileX, tileY]
 		 */
 		String[][] level = readCSV(filename);
 		int size = Integer.parseInt(level[0][2]);
-		float width = Float.parseFloat(level[0][0]);
-		float height = Float.parseFloat(level[0][1]);
+		int width = Integer.parseInt(level[0][0]);
+		int height = Integer.parseInt(level[0][1]);
+		
+		
+		Object[][] sprites = new Object[width][height]; 
+		for (int i = 0; i < width; i++) {
+			for (int j = 0; j < height; j++) {
+				sprites[i][j] = new ArrayList<Sprite>();
+			}
+		}
+		
 		/**
 		 * Inside for loop , read all tile data
-		 * Then the last data in CSV is player data
+		 * and create the object
 		 */
-		Sprite[] sprites = new Sprite[size]; //this object will be returned
 		for (int i = 0; i < size - 1; i++) {
 			//read tile data
-			float tileX = Float.parseFloat(level[2][i]);
-			float tileY = Float.parseFloat(level[3][i]);
+			int x = Integer.parseInt(level[2][i]);
+			int y = Integer.parseInt(level[3][i]);
 			
 			//convert tile coordinate into the screen coordinate
 			float ScrCoor[] = tileToScreen(tileX, tileY, width, height);
@@ -55,28 +68,7 @@ public class Loader {
 		}
 		
 		//create object for player model
-		float ScrCoor[] = tileToScreen(Float.parseFloat(level[2][size-1]), 
-									   Float.parseFloat(level[3][size-1]), 
-									   width, height);
-		sprites[size - 1] = new Sprite("player_left", 
-										ScrCoor[0], 
-										ScrCoor[1]);
 		return sprites;
-	}
-	
-	private static float[] tileToScreen(float tileX, float tileY, float width, float height) {
-		/**ince we use draw centre function, we need to add 16 to the coordinate
-		 * As by documentation for draw_Centred
-		 * Draw the image based on it's center
-		 *Parameters:
-		 *x - The x coordinate to place the image's center at
-		 *y - The y coordinate to place the image's center at
-		 */
-	
-		float x = (SCREEN_WIDTH - width*TILE_SIZE)/ 2 + tileX*TILE_SIZE+TILE_SIZE / 2;
-		float y = (SCREEN_HEIGHT - height*TILE_SIZE)/ 2 + tileY*TILE_SIZE+TILE_SIZE / 2;
-		float result[] = {x,y};
-		return result;
 	}
 	
 	private static String[][] readCSV(String filename){ 
@@ -84,39 +76,38 @@ public class Loader {
 		 * By reading "FLOOR, TARGET" to the front
 		 * And "STONE, WALL, Player" at the end
 		 */
-		ArrayList<String> tile = new ArrayList<String>();
-		ArrayList<String> tileX = new ArrayList<String>();
-		ArrayList<String> tileY = new ArrayList<String>();
+		ArrayList<String> spType = new ArrayList<String>();
+		ArrayList<String> spX = new ArrayList<String>();
+		ArrayList<String> spY = new ArrayList<String>();
 		String width = "";
 		String height = "";
 		
 		//Read CSV
 		String line = "";
-		String csvSplit = ",";
+		String CSVSplit = ",";
 		BufferedReader level = null;
 		
 		//read world size
 		try {
 			level = new BufferedReader(new FileReader(filename));
 			line = level.readLine();
-			width = line.split(csvSplit)[0];
-			height = line.split(csvSplit)[1];
+			width = line.split(CSVSplit)[0];
+			height = line.split(CSVSplit)[1];
 			//read rest element into 3 array
 			while ((line = level.readLine()) != null) {
 				//the first line is tile, the rest two are coordinate
-				String[] linedata = line.split(csvSplit);
-				if (linedata[0].equals(FLOOR) | linedata[0].equals(TARGET)) {
-					/*if it is floor or target, we need to render them first
-					 *therefore when reading the data, we add them from the beginning of the list
+				String[] linedata = line.split(CSVSplit);
+				if (linedata[0].equals(FLOOR) | linedata[0].equals(TARGET) | linedata[0].equals(SWITCH)) {
+					/*if it is tile, we load it first
 					 **/
-					tile.add(0,linedata[0]);
-					tileX.add(0,linedata[1]);
-					tileY.add(0,linedata[2]);
+					spType.add(0,linedata[0]);
+					spX.add(0,linedata[1]);
+					spY.add(0,linedata[2]);
 				}else {
 					//for the rest element, we add as normal
-					tile.add(linedata[0]);
-					tileX.add(linedata[1]);
-					tileY.add(linedata[2]);
+					spType.add(linedata[0]);
+					spX.add(linedata[1]);
+					spY.add(linedata[2]);
 				}
 			}
 		} catch (IOException e) {
@@ -133,10 +124,10 @@ public class Loader {
 		String[][] result = new String[][] {
 			//the first array record width, height, and number of tiles
 			//plus a player
-			{width, height, new Integer(tile.size()).toString()},
-			tile.toArray(new String[tile.size()]),
-			tileX.toArray(new String[tileX.size()]),
-			tileY.toArray(new String[tileY.size()])
+			{width, height, new Integer(spType.size()).toString()},
+			spType.toArray(new String[spType.size()]),
+			spX.toArray(new String[spX.size()]),
+			spY.toArray(new String[spY.size()])
 		};
 		return result;
 	}

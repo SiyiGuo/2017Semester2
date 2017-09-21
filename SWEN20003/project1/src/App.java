@@ -23,6 +23,8 @@ public class App extends BasicGame
     public static final int SCREEN_HEIGHT = 600;
     /** size of the tiles, in pixels */
     public static final int TILE_SIZE = 32;
+    /**this is in miliseconds, so we want miinimum to be 0.1 seconds **/
+    public static final int MIN_UPDATE_INTERVAL = 100; 
     
     private World world;
 
@@ -67,8 +69,11 @@ public class App extends BasicGame
     public static void main(String[] args)
     throws SlickException
     {
+    	
         AppGameContainer app = new AppGameContainer(new App());
+        
         // setShowFPS(true), to show frames-per-second.
+        app.setMinimumLogicUpdateInterval(MIN_UPDATE_INTERVAL);
         app.setShowFPS(true);
         app.setDisplayMode(SCREEN_WIDTH, SCREEN_HEIGHT, false);
         app.start();
