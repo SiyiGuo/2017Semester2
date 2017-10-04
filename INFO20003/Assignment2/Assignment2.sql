@@ -12,14 +12,11 @@ GROUP BY CONCAT(area, yearlevel, code)
 HAVING COUNT(Student) > 1;
 
 -- Q3 --
-SELECT Student, Course.creditpoints - SUM(Subject.creditpoints)
+SELECT Student, Course.creditpoints - SUM(if(result >= 50 , Subject.creditpoints, 0)) AS Credit_to_Complete
 FROM Course INNER JOIN Student INNER JOIN StudentTakesSubject STS INNER JOIN Subject
 ON Course.id = Student.course AND Student.id = STS.student 
 AND STS.area = Subject.area AND STS.yearlevel = Subject.yearlevel AND STS.code = Subject.code
-WHERE Student IN (SELECT DISTINCT Student 
-				  FROM Student INNER JOIN StudentTakesSubject 
-                  ON id = student 
-                  WHERE yearlevel < 9)
+WHERE STS.yearlevel < 9
 GROUP BY Student
 
 -- Q4 -- 
