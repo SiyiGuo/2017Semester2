@@ -5,9 +5,9 @@ ON Student.course = Course.id
 GROUP BY Course.name;
 
 -- Q2--
-SELECT CONCAT(area, yearlevel, code) AS Subject, COUNT(student) AS Number_of_Student
+SELECT CONCAT(area, yearlevel, code) AS Subject, COUNT(student) AS Number_of_Student_Failed
 FROM StudentTakesSubject
-WHERE result < 50 || result = NULL
+WHERE result < 50 || result IS NULL
 GROUP BY CONCAT(area, yearlevel, code)
 HAVING COUNT(Student) > 1;
 
