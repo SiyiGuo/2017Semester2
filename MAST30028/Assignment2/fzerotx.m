@@ -36,7 +36,7 @@ e = d;
 
 iteration = 0;
 % Main loop, exit from middle of the loop
-while fb ~= 0
+while fb ~= 0   
 
    % The three current points, a, b, and c, satisfy:
    %    f(x) changes sign between a and b.
