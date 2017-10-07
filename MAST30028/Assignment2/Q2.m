@@ -5,7 +5,7 @@ function Q2()
 
     %generating different matrix A
     %Use Gallery for A
-    fprintf('Method,           n,   conditional number, normwiseRelativeForwardError, relativeResidual\n');
+    fprintf('Method,    n,  conditional number, normwiseRelativeForwardError, relativeResidual\n');
     for j = 1:numel(ns)
         n = ns(j);
         %set up for the known solution
@@ -21,16 +21,16 @@ function Q2()
 
             %use 3 different methods to reverse back x
             x1 = method1(A,b);
-            fprintf('LU Facto, %10d, %20d, %20.20f, %28.20f\n', n, condno, normRelativeForwardError(x1, x), relativeResidual(x1, b, A));
+            fprintf('LU Facto, %d, %19d, %28d, %16d\n', n, condno, normRelativeForwardError(x1, x), relativeResidual(x1, b, A));
             x2 = method2(A,b);
-            fprintf('Inv    A, %10d, %20d, %20.20f, %28.20f\n', n, condno, normRelativeForwardError(x2, x), relativeResidual(x2, b, A));
+            fprintf('Inv    A, %d, %19d, %28d, %16d\n', n, condno, normRelativeForwardError(x2, x), relativeResidual(x2, b, A));
             x3 = method3(A,b);
-            fprintf('QR Facto, %10d, %20d, %20.20f, %28.20f\n\n', n, condno, normRelativeForwardError(x3, x), relativeResidual(x3, b, A));
+            fprintf('QR Facto, %d, %19d, %28d, %16d\n\n\n', n, condno, normRelativeForwardError(x3, x), relativeResidual(x3, b, A));
         end
     end
 
     %Use Gfpp for A
-    fprintf('Method,           n, normwiseRelativeForwardError, relativeResidual\n');
+    fprintf('Method,    n, normwiseRelativeForwardError, relativeResidual\n');
     for j = 1:numel(ns)
         n = ns(j);
         %set up the solution
@@ -44,11 +44,11 @@ function Q2()
 
         %use 3 different methods to reverse back x
         x1 = method1(A,b);
-        fprintf('LU Facto, %10d, %20.20f, %28.20f\n', n, normRelativeForwardError(x1, x), relativeResidual(x1, b, A));
+        fprintf('LU Facto, %d, %28d, %16d\n', n, normRelativeForwardError(x1, x), relativeResidual(x1, b, A));
         x2 = method2(A,b);
-        fprintf('Inv    A, %10d, %20.20f, %28.20f\n', n, normRelativeForwardError(x2, x), relativeResidual(x2, b, A));
+        fprintf('Inv    A, %d, %28d, %16d\n', n, normRelativeForwardError(x2, x), relativeResidual(x2, b, A));
         x3 = method3(A,b);
-        fprintf('QR Facto, %10d, %20.20f, %28.20f\n\n', n, normRelativeForwardError(x3, x), relativeResidual(x3, b, A));
+        fprintf('QR Facto, %d, %28d, %16d\n', n, normRelativeForwardError(x3, x), relativeResidual(x3, b, A));
     end
 end
 

@@ -1,5 +1,5 @@
 
-function [f, J] = func(xx)
+function [f, J] = funcQ3b(xx)
     %this function is wriittern by the user
     %with the expression for function and J
     %that take a  vector as input
