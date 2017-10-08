@@ -1,9 +1,9 @@
 function [roots, count, resids, history] = ass2Q3(func, x0, tol)
     %value that should be return
     count = 0;
-    history = [];
+    history = [x0];
     resids = [];
-    roots = 0;
+    roots = x0;
     
     %asserting the tolerance value
     if nargin == 2
@@ -18,10 +18,11 @@ function [roots, count, resids, history] = ass2Q3(func, x0, tol)
         
         %get residual of function using the infinity norm
         residual = norm(exact_f, Inf);
+        resids = [resids residual];
         if  residual <= tol
             break;
         end
-        
+            
         sn = Jar \ exact_f;
         approx_x = approx_x - sn;
         roots = approx_x;
@@ -29,7 +30,6 @@ function [roots, count, resids, history] = ass2Q3(func, x0, tol)
         %record everything
         history = [history roots];
         count = count + 1;
-        resids = [resids residual];
     end
 end
 

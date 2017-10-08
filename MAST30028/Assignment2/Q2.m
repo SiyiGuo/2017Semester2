@@ -10,7 +10,7 @@ function Q2()
         n = ns(j);
         %set up for the known solution
         %set up the solution
-        x = 100*ones(n,1);
+        x = randi(100)*rand(n,1);
         for k = 1:numel(condition_nums)
             %get Matrix A
             condno = condition_nums(k);
@@ -21,11 +21,11 @@ function Q2()
 
             %use 3 different methods to reverse back x
             x1 = method1(A,b);
-            fprintf('LU Facto, %d, %19d, %28d, %16d\n', n, condno, normRelativeForwardError(x1, x), relativeResidual(x1, b, A));
+            fprintf('LU Facto, %d, %19e, %28d, %16d\n', n, condno, normRelativeForwardError(x1, x), relativeResidual(x1, b, A));
             x2 = method2(A,b);
-            fprintf('Inv    A, %d, %19d, %28d, %16d\n', n, condno, normRelativeForwardError(x2, x), relativeResidual(x2, b, A));
+            fprintf('Inv    A, %d, %19e, %28d, %16d\n', n, condno, normRelativeForwardError(x2, x), relativeResidual(x2, b, A));
             x3 = method3(A,b);
-            fprintf('QR Facto, %d, %19d, %28d, %16d\n\n\n', n, condno, normRelativeForwardError(x3, x), relativeResidual(x3, b, A));
+            fprintf('QR Facto, %d, %19e, %28d, %16d\n\n\n', n, condno, normRelativeForwardError(x3, x), relativeResidual(x3, b, A));
         end
     end
 
@@ -34,7 +34,7 @@ function Q2()
     for j = 1:numel(ns)
         n = ns(j);
         %set up the solution
-        x = ones(n,1);
+        x =  randi(100)*rand(n,1);
 
         %get Matrix A
         A = gfpp(n);
@@ -48,7 +48,7 @@ function Q2()
         x2 = method2(A,b);
         fprintf('Inv    A, %d, %28d, %16d\n', n, normRelativeForwardError(x2, x), relativeResidual(x2, b, A));
         x3 = method3(A,b);
-        fprintf('QR Facto, %d, %28d, %16d\n', n, normRelativeForwardError(x3, x), relativeResidual(x3, b, A));
+        fprintf('QR Facto, %d, %28d, %16d\n\n', n, normRelativeForwardError(x3, x), relativeResidual(x3, b, A));
     end
 end
 
