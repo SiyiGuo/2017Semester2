@@ -64,6 +64,15 @@ function ass2Q3cDriver()
     clabel(C,h);
     plot(history4(1,:), history4(2,:),'-x', 'DisplayName', 'X4 iteration history')
     legend('show')
+    
+    figure(11)
+    plot3(history4(1,:), history4(2,:), plot_jarcobian(history4(1,:), history4(2,:)), '-x', 'markers', 12, 'DisplayName', 'Det(J) for iteration with x0 = [2;-2.5]')
+    legend('show')
+    
+    
+    figure(12)
+    plot3(history2(1,:), history2(2,:), plot_jarcobian(history2(1,:), history2(2,:)), '-x', 'markers', 12, 'DisplayName', 'Det(J) for iteration with x0 = [-2;2.5]')
+    legend('show')
 end
 
 function plot_system_equations()
@@ -77,4 +86,17 @@ function plot_system_equations()
     [C,h] = contour(X1,X2,Z2,[0,0], 'm');
     clabel(C,h);
     %surf(X1,X2,Z2);
+end
+
+function result = plot_jarcobian(xx1, xx2)
+    result = zeros(1, numel(xx1));
+    for i = 1: numel(xx1)
+        x1 = xx1(i);
+        x2 = xx2(i);
+        J = [2*x1 + x2^3 , 3*x1*x2^2; 6*x1*x2 , 3*x1^2 - 3*x2^2];
+        disp([x1,x2]');
+        f = [x1^2 + x1*x2^3 - 9; 3*x1^2*x2 - x2^3-4];
+        disp(det(J));
+        result(i) = det(J);
+    end
 end
