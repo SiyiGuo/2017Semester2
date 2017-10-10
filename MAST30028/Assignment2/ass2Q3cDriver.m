@@ -65,6 +65,9 @@ function ass2Q3cDriver()
     plot(history4(1,:), history4(2,:),'-x', 'DisplayName', 'X4 iteration history')
     legend('show')
     
+    
+    %uncomment these 6 lines if dont want to see the iteration and det
+    %history
     figure(11)
     plot3(history4(1,:), history4(2,:), plot_jarcobian(history4(1,:), history4(2,:)), '-x', 'markers', 12, 'DisplayName', 'Det(J) for iteration with x0 = [2;-2.5]')
     legend('show')
@@ -94,9 +97,10 @@ function result = plot_jarcobian(xx1, xx2)
         x1 = xx1(i);
         x2 = xx2(i);
         J = [2*x1 + x2^3 , 3*x1*x2^2; 6*x1*x2 , 3*x1^2 - 3*x2^2];
-        disp([x1,x2]');
         f = [x1^2 + x1*x2^3 - 9; 3*x1^2*x2 - x2^3-4];
-        disp(det(J));
+        sn = J \ f;
+        xnext = [x1;x2] - sn;
+        fprintf('xn is [%8.4f %8.4f], det(J(xn)) is %e, xn+1 = [%8.4f %8.4f]\n', x1, x2, det(J), xnext);
         result(i) = det(J);
     end
 end
