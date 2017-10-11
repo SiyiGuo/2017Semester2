@@ -1,6 +1,10 @@
 
 public class Position {
-	public static final int UNDEFINED = -1;
-	public final int X = UNDEFINED;
-	public final int Y = UNDEFINED;
+	public final int gameX;
+	public final int gameY;
+	
+	public Position(int x, int y) {
+		gameX = x;
+		gameY = y;
+	}
 }

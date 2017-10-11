@@ -34,7 +34,7 @@ public class Loader {
 		/* Inside for loop , read all data from csv
 		 * and create the object
 		 */
-		for (int i = 0; i < size - 1; i++) {
+		for (int i = 0; i < size; i++) {
 			//read tile data
 			int x = Integer.parseInt(level[2][i]);
 			int y = Integer.parseInt(level[3][i]);
@@ -42,6 +42,7 @@ public class Loader {
 			
 			int gameCoor[] = {x,y};
 			String spType = level[1][i];
+			
 			
 			//create sprite object and add to the arrayList
 			Sprite sprite = createSprite(spType,gameCoor[0],gameCoor[1]);
@@ -56,14 +57,25 @@ public class Loader {
 	}
 	
 	/**
-	 * Create a sprite
+	 * Create a sprite 
+	 * @param spType: A string specific what type is it
+	 * @param gameX: the x coordinate
+	 * @param gameY: the Y coordinate
 	 */
 	private static Sprite createSprite(String spType, int gameX, int gameY) {
 		Sprite sprite = null;
 		switch (spType) {
-			case Sprite.FLOOR:
+			case Sprite.PLAYER:
+				sprite = new Player(spType, gameX, gameY);
 				break;
-			case Sprite.DOOR:
+			case Sprite.CRACKED_WALL:
+				sprite = new Sprite(Sprite.CRACKED_WALL, gameX, gameY);
+				break;
+			case Sprite.SKELETON:
+				sprite = new Sprite(Sprite.SKULL, gameX, gameY);
+				break;
+			default:
+				sprite = new Sprite(spType, gameX, gameY);
 				break;
 		}
 		return sprite;

@@ -22,7 +22,8 @@ public class Sprite {
     /** NPC **/
     public static final String ROGUE = "rogue";
     public static final String MAGE = "mage";
-    public static final String SKELETON = "skull";
+    public static final String SKELETON = "skeleton";
+    public static final String SKULL = "skull";
     
     /** Player **/
     public static final String PLAYER = "player";
@@ -31,9 +32,8 @@ public class Sprite {
     
 	//inside Sprite Class we deals with screen coordinate
 	private String tileType = "";
-	private Image tile = null;
-	private float gameX;
-	private float gameY;
+	private Image image = null;
+	Position gamePosition = null;
 	public static Sprite[] sprites = null;
 	
 	/**this is the constructor for this class
@@ -42,15 +42,14 @@ public class Sprite {
 	 * @param gameX: the game coordinate which read from csv file
 	 * @param gameY: the game coordinate which read from csv file
 	 */
-	public Sprite(String image_src, float csvX, float csvY){
+	public Sprite(String image_src, int csvX, int csvY){
 		try {
-			tile = new Image(App.IMAGE_FOLDER + image_src + App.IMAGE_SUFFIX);
+			image = new Image(App.IMAGE_FOLDER + image_src + App.IMAGE_SUFFIX);
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
 		tileType = image_src;
-		gameX = csvX;
-		gameY = csvY;
+		gamePosition = new Position(csvX, csvY);
 	}
 	
 	/**
@@ -60,23 +59,27 @@ public class Sprite {
 	 */
 	public void update(int input) {
 		if(input == Input.KEY_UP) {
-			float moveY = this.getGameY() - 1;
-			this.setGameY(moveY);
+			int moveY = this.gamePosition.gameY - 1;
+			int moveX = this.gamePosition.gameX;
+			gamePosition = new Position(moveX, moveY);
 		}
 		
 		if(input == Input.KEY_DOWN) {
-			float moveY = this.getGameY() + 1;
-			this.setGameY(moveY);
+			int moveY = this.gamePosition.gameY + 1;
+			int moveX = this.gamePosition.gameX;
+			gamePosition = new Position(moveX, moveY);
 		}
 		
 		if(input == Input.KEY_LEFT) {
-			float moveX = this.getGameX() - 1;
-			this.setGameX(moveX);
+			int moveX = this.gamePosition.gameX - 1;
+			int moveY = this.gamePosition.gameY;
+			gamePosition = new Position(moveX, moveY);
 		}
 			
 		if(input == Input.KEY_RIGHT) {
-			float moveX = this.getGameX() + 1;
-			this.setGameX(moveX);
+			int moveX = this.gamePosition.gameX;
+			int moveY = this.gamePosition.gameY;
+			gamePosition = new Position(moveX, moveY);
 		}
 	}
 	
@@ -87,12 +90,15 @@ public class Sprite {
 	 * Which is the final step
 	 * @param g
 	 */
-	public void render(Graphics g) {
-		float scrX = 0;
-		float scrY = 0; 
-		tile.drawCentered(scrX, scrY);
+	public void render(Graphics g, int gameWidth, int gameHeight) {
+		float scrX = (App.SCREEN_WIDTH - gameWidth * App.TILE_SIZE) / 2 
+				+ gamePosition.gameX * App.TILE_SIZE
+				+ App.TILE_SIZE /2;
+		float scrY = (App.SCREEN_HEIGHT - gameHeight * App.TILE_SIZE) / 2
+				+ gamePosition.gameY * App.TILE_SIZE
+				+ App.TILE_SIZE / 2;
+		image.drawCentered(scrX, scrY);
 	}
-
 	/**
 	 * TODO rewrite the pushing stone function
 	 * This function used to perform pushing stone
@@ -104,8 +110,9 @@ public class Sprite {
 		 * else, return false
 		 */
 		for(int i = 0; i < sprites.length; i++) {
-			float BlockedX = sprites[i].gameX;
-			float BlockedY = sprites[i].gameY;
+			Position spriteGamePosition = sprites[i].gamePosition;
+			float BlockedX = spriteGamePosition.gameX;
+			float BlockedY = spriteGamePosition.gameY;
 			String tileType =sprites[i].tileType; 
 			if (nextX == BlockedX & nextY == BlockedY) {
 				// if we find the block, we try to push it
@@ -130,23 +137,14 @@ public class Sprite {
 		return tileType;
 	}
 	
-	public float getGameX() {
-		return this.gameX;
+	public Position getPosition() {
+		return gamePosition;
 	}
 	
-	public float getGameY() {
-		return this.gameY;
+	public void setPosition(Position position) {
+		this.gamePosition = position;
 	}
-	
-	public void setGameX(float x) {
-		this.gameX = x;
-	}
-	
-	public void setGameY(float y) {
-		this.gameY = y;
-	}
-	
 	public void printInfo(){
-		System.out.println(tileType + " " + Float.toString(gameX) +" " + Float.toString(gameY));
+		System.out.println(tileType + " " + Float.toString(gamePosition.gameX) +" " + Float.toString(gamePosition.gameY));
 	}
 }

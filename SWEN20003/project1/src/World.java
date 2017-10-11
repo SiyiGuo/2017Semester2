@@ -7,11 +7,6 @@ import org.newdawn.slick.Input;
 
 public class World {
 	public static final int UNDEFINED = -1;
-	
-	/**Game's width and height**/
-	public int gameWidth = UNDEFINED;
-	public int gameHeight = UNDEFINED;
-	
 	public static final int MAX_SPRITE_NUM = 2;
 	public static final int TOP_SPRITE = 1;
 	public static final int BOT_SPRITE = 0;
@@ -26,13 +21,17 @@ public class World {
     public static final int LEVEL4 = 4;
     public static final int LEVEL5 = 5;
     
-    private int level = LEVEL0;
-	private int[] levels = {LEVEL0, LEVEL1, LEVEL2, LEVEL3, LEVEL4, LEVEL5};
-    
     public static final String MAPROOT = "res/levels/";
     public static final String MAPSUFFIX = ".lvl";
-	private String mapFile = MAPROOT + Integer.toString(levels[level]) + MAPSUFFIX;
+    
+    public static int[] levels = {LEVEL0, LEVEL1, LEVEL2, LEVEL3, LEVEL4, LEVEL5};
+    
+    /*instance variable relate to specific world*/
+    private int level = LEVEL0;
 	
+	/**Game's width and height**/
+	private int gameWidth = UNDEFINED;
+	private int gameHeight = UNDEFINED;
 	
 	/**set up for counting the gaming environment **/
 	private int updateCount = 0;
@@ -40,11 +39,14 @@ public class World {
 	private ArrayList<Sprite[]> historyMove = new ArrayList<Sprite[]>();
 	
 	/**Sprites on the level**/
-	private ArrayList<Sprite>[][] sprites = null; 
+	private Sprite[][][] sprites = null; 
 	private Player player = null;
 	
+	
+	
+	/*Constructor for the world*/
 	public World() {
-		initializeLevel(mapFile);
+		initializeLevel(LEVEL2);
 	}
 		
 	
@@ -52,19 +54,37 @@ public class World {
 		player.update(input, delta);
 	}
 	
+	
 	public void render(Graphics g) {
-		for(int i = 0; i < Sprite.sprites.length; i++) {
-			Sprite.sprites[i].render(g);
+		
+		/*Loading the wall and sprite at bottom*/
+		for(int i = 0; i < gameWidth; i++) {
+			for(int j = 0; j < gameHeight; j++) {
+				for (int k = 0; k < MAX_SPRITE_NUM; k++) {
+					Sprite sprite = sprites[i][j][k];
+					if (sprite != null) {
+						sprite.render(g,  gameWidth, gameHeight);
+					}
+				}
+			}
 		}
-		player.render(g);
+		
+		/*Loading the NPC*/
+		player.render(g, gameWidth, gameHeight);
 	}
 	
 	
 	/** functions have effect on the whole world**/
-	public void initializeLevel(String mapFile) {
+	public void initializeLevel(int level) {
 		//Loading Sprites object array
+		//Sprites is a three dimension variable with [x][y][top/bottom]
+		String mapFile = MAPROOT + Integer.toString(levels[level]) + MAPSUFFIX;
 		sprites = Loader.loadSprites(mapFile);
-		
+		gameWidth = sprites.length;
+		//Just take the first array's size as height as they all got uniform size
+		//at the 2nd dimension
+		gameHeight = sprites[0].length; 
+		findPlayerRef();
 	}
 	
 	public void checkComplete() {
@@ -92,20 +112,22 @@ public class World {
 		
 	}
 	
-	/**small helper functions in world**/
-	public Sprite getNxtSprite(Position position) {
-		return sprites[position.X][position.Y].get(0);
+	
+	/* verty small function*/
+	public void findPlayerRef() {
+		for(int i = 0; i < gameWidth; i++) {
+			for(int j = 0; j < gameHeight; j++) {
+				for (int k = 0; k < MAX_SPRITE_NUM; k++) {
+					Sprite sprite = sprites[i][j][k];
+					if (sprite != null && sprite.getTileType().equals(Sprite.PLAYERFILE)) {
+						player = (Player)sprite;
+						break;
+					}
+				}
+			}
+		}
 	}
 	
-	public float[] posToScreen(Position position) {
-		float x = (App.SCREEN_WIDTH - gameWidth * App.TILE_SIZE) / 2 
-					+ position.X * App.TILE_SIZE
-					+ App.TILE_SIZE /2;
-		float y = (App.SCREEN_HEIGHT - gameHeight * App.TILE_SIZE) / 2
-					+ position.Y * App.TILE_SIZE
-					+ App.TILE_SIZE / 2;
-		
-		float result[] = {x,y};
-		return result;
-	}
+	
+	/*Setter and Getter*/
 }
