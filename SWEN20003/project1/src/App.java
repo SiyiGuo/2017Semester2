@@ -23,6 +23,10 @@ public class App extends BasicGame
     public static final int SCREEN_HEIGHT = 600;
     /** size of the tiles, in pixels */
     public static final int TILE_SIZE = 32;
+    /** surfix for the image */
+    public static final String IMAGE_SUFFIX = ".png";
+    /** where the image store */
+    public static final String IMAGE_FOLDER = "res/";
     /**this is in miliseconds, so we want miinimum to be 0.1 seconds **/
     public static final int MIN_UPDATE_INTERVAL = 100; 
     

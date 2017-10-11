@@ -12,6 +12,11 @@ public class World {
 	public int gameWidth = UNDEFINED;
 	public int gameHeight = UNDEFINED;
 	
+	public static final int MAX_SPRITE_NUM = 2;
+	public static final int TOP_SPRITE = 1;
+	public static final int BOT_SPRITE = 0;
+	public static final String TOP = "top";
+	public static final String BOTTOM = "bottom";
 	
     /** constant set up for mapfile**/
     public static final int LEVEL0 = 0;
@@ -20,11 +25,14 @@ public class World {
     public static final int LEVEL3 = 3;
     public static final int LEVEL4 = 4;
     public static final int LEVEL5 = 5;
-    public static final String MAPROOT = "res/levels/";
-    public static final String SUFFIX = ".lvl";
+    
     private int level = LEVEL0;
 	private int[] levels = {LEVEL0, LEVEL1, LEVEL2, LEVEL3, LEVEL4, LEVEL5};
-	private String mapFile = MAPROOT + Integer.toString(levels[level]) + SUFFIX;
+    
+    public static final String MAPROOT = "res/levels/";
+    public static final String MAPSUFFIX = ".lvl";
+	private String mapFile = MAPROOT + Integer.toString(levels[level]) + MAPSUFFIX;
+	
 	
 	/**set up for counting the gaming environment **/
 	private int updateCount = 0;
