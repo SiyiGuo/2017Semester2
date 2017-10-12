@@ -48,7 +48,9 @@ public class Loader {
 			Sprite sprite = createSprite(spType,gameCoor[0],gameCoor[1]);
 			if (spToporBottom.equals(World.TOP)){
 				sprites[x][y][World.TOP_SPRITE] = sprite;
-			} else {
+			} else if (spToporBottom.equals(World.MIDDLE)){
+				sprites[x][y][World.MID_SPRITE] = sprite;
+			}else {
 				sprites[x][y][World.BOT_SPRITE] = sprite;
 			}
 		}
@@ -65,18 +67,45 @@ public class Loader {
 	private static Sprite createSprite(String spType, int gameX, int gameY) {
 		Sprite sprite = null;
 		switch (spType) {
+			//Player
 			case Sprite.PLAYER:
 				sprite = new Player(spType, gameX, gameY);
 				break;
+			
+			//NPC
 			case Sprite.SKELETON:
 				sprite = new Skeleton(Sprite.SKULL, gameX, gameY);
 				break;
-			case Sprite.CRACKED_WALL:
+			case Sprite.ROGUE:
+				sprite = new Rogue(Sprite.ROGUE, gameX, gameY);
+				break;
+			
+			
+			//Lower Tiles
+			case Sprite.TARGET:
+				sprite = new Tile(Sprite.TARGET, gameX, gameY);
+				break;
+			
+				//Upper Tiles
+			case Sprite.CRACKED:
 				sprite = new CrackedWall(Sprite.CRACKED_WALL, gameX, gameY);
 				break;
 			case Sprite.WALL:
 				sprite = new Tile(Sprite.WALL, gameX, gameY);
 				break;
+			
+			//all blocks
+			case Sprite.STONE:
+				sprite = new Stone(Sprite.STONE , gameX, gameY);
+				break;
+			case Sprite.ICE:
+				sprite = new Ice(Sprite.ICE, gameX, gameY);
+				break;
+			case Sprite.TNT:
+				sprite = new Tnt(Sprite.TNT, gameX, gameY);
+				break;
+			
+			//The rest Default Stuff
 			default:
 				sprite = new Sprite(spType, gameX, gameY);
 				break;
@@ -118,9 +147,7 @@ public class Loader {
 				//the first line is tile, the rest two are coordinate
 				//lindata = [Type, x, y];
 				String[] linedata = line.split(CSVSplit);
-				if (linedata[0].equals(Sprite.FLOOR) 
-						| linedata[0].equals(Sprite.TARGET) 
-						| linedata[0].equals(Sprite.SWITCH)) {
+				if (linedata[0].equals(Sprite.FLOOR)){
 					
 					/*if it is tile type , we load it first
 					 **/
@@ -128,6 +155,11 @@ public class Loader {
 					spX.add(0,linedata[1]);
 					spY.add(0,linedata[2]);
 					spTB.add(0, World.BOTTOM);
+				} else if(linedata[0].equals(Sprite.TARGET) || linedata[0].equals(Sprite.SWITCH)) {
+					spType.add(0,linedata[0]);
+					spX.add(0,linedata[1]);
+					spY.add(0,linedata[2]);
+					spTB.add(0, World.MIDDLE);
 				}else {
 					//for the rest element, we add as normal
 					spType.add(linedata[0]);

@@ -9,6 +9,7 @@ public class Sprite {
 	public static final String FLOOR = "floor";
 	public static final String WALL = "wall";
     public static final String TARGET = "target";
+    public static final String CRACKED = "cracked";
     public static final String CRACKED_WALL = "cracked_wall";
     public static final String SWITCH = "switch";
     public static final String DOOR = "door";
@@ -59,35 +60,10 @@ public class Sprite {
 	 * And update the new sprite coordinate
 	 * @param input the user's action on the keyboard
 	 */
-	public Position update(int input) {
-		if(input == Input.KEY_UP) {
-			int moveY = this.gamePosition.gameY - 1;
-			int moveX = this.gamePosition.gameX;
-			gamePosition = new Position(moveX, moveY);
-		}
-		
-		if(input == Input.KEY_DOWN) {
-			int moveY = this.gamePosition.gameY + 1;
-			int moveX = this.gamePosition.gameX;
-			gamePosition = new Position(moveX, moveY);
-		}
-		
-		if(input == Input.KEY_LEFT) {
-			int moveX = this.gamePosition.gameX - 1;
-			int moveY = this.gamePosition.gameY;
-			gamePosition = new Position(moveX, moveY);
-		}
-			
-		if(input == Input.KEY_RIGHT) {
-			int moveX = this.gamePosition.gameX;
-			int moveY = this.gamePosition.gameY;
-			gamePosition = new Position(moveX, moveY);
-		}
-		return gamePosition;
+	public void update(Input input) {
 	}
 	
 	/**
-	 * TODO Adding a converting function
 	 * This the render function, which we only convert the coordinate system
 	 * From game coordinate to screen coordinate at render step.
 	 * Which is the final step
@@ -102,31 +78,15 @@ public class Sprite {
 				+ App.TILE_SIZE / 2;
 		image.drawCentered(scrX, scrY);
 	}
+	
 	/**
-	 * TODO rewrite the pushing stone function
-	 * This function used to perform pushing stone
+	 * Collision function
+	 * 
 	 */
-	public static boolean pushStone(float nextX, float nextY, int stoneID, int input) {
-		/*this function take the planning x and y as input
-		 * and check whether this stone can be pushed
-		 * if successful, return true
-		 * else, return false
-		 */
-		for(int i = 0; i < sprites.length; i++) {
-			Position spriteGamePosition = sprites[i].gamePosition;
-			float BlockedX = spriteGamePosition.gameX;
-			float BlockedY = spriteGamePosition.gameY;
-			String tileType =sprites[i].tileType; 
-			if (nextX == BlockedX & nextY == BlockedY) {
-				// if we find the block, we try to push it
-				if (tileType.equals(WALL) | tileType.equals(STONE)) {
-					return false;
-				}
-			}
-		}
-		sprites[stoneID].update(input);
-		return true;
+	public boolean collisionEffect(Position fromPosition) {
+		return false;
 	}
+	
 	
 	
 	

@@ -78,7 +78,7 @@ public class App extends BasicGame
         
         // setShowFPS(true), to show frames-per-second.
         app.setMinimumLogicUpdateInterval(MIN_UPDATE_INTERVAL);
-        app.setShowFPS(true);
+        app.setShowFPS(false);
         app.setDisplayMode(SCREEN_WIDTH, SCREEN_HEIGHT, false);
         app.start();
     }
