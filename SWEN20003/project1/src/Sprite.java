@@ -29,12 +29,14 @@ public class Sprite {
     public static final String PLAYER = "player";
     public static final String PLAYERFILE = "player_left";
     
+    /*TODO destroy this variable*/
+    public static Sprite[] sprites = null; //this variable shoudl be destroyed once everything finished////
     
 	//inside Sprite Class we deals with screen coordinate
-	private String tileType = "";
-	private Image image = null;
-	Position gamePosition = null;
-	public static Sprite[] sprites = null;
+	protected String tileType = "";
+	protected Image image = null;
+	private Position gamePosition = null;
+	
 	
 	/**this is the constructor for this class
 	 * Which create a single sprite
@@ -57,7 +59,7 @@ public class Sprite {
 	 * And update the new sprite coordinate
 	 * @param input the user's action on the keyboard
 	 */
-	public void update(int input) {
+	public Position update(int input) {
 		if(input == Input.KEY_UP) {
 			int moveY = this.gamePosition.gameY - 1;
 			int moveX = this.gamePosition.gameX;
@@ -81,6 +83,7 @@ public class Sprite {
 			int moveY = this.gamePosition.gameY;
 			gamePosition = new Position(moveX, moveY);
 		}
+		return gamePosition;
 	}
 	
 	/**
@@ -124,7 +127,6 @@ public class Sprite {
 		sprites[stoneID].update(input);
 		return true;
 	}
-	
 	
 	
 	

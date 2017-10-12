@@ -5,6 +5,10 @@ public class Npc extends Sprite{
 		super(image_src, csvX, csvY);
 	}
 	
+	public void update() {
+		
+	}
+	
 	public Position nxtPosition() {
 		return new Position(-1,-1);
 	}

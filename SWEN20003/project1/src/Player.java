@@ -8,4 +8,8 @@ public class Player extends Sprite{
 	
 	public void update(Input input, int delta) {
 	}
+	
+	public void test_child() {
+		System.out.println("Hi thi sis from child class");
+	}
 }

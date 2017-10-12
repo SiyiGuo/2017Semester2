@@ -68,11 +68,14 @@ public class Loader {
 			case Sprite.PLAYER:
 				sprite = new Player(spType, gameX, gameY);
 				break;
-			case Sprite.CRACKED_WALL:
-				sprite = new Sprite(Sprite.CRACKED_WALL, gameX, gameY);
-				break;
 			case Sprite.SKELETON:
-				sprite = new Sprite(Sprite.SKULL, gameX, gameY);
+				sprite = new Skeleton(Sprite.SKULL, gameX, gameY);
+				break;
+			case Sprite.CRACKED_WALL:
+				sprite = new CrackedWall(Sprite.CRACKED_WALL, gameX, gameY);
+				break;
+			case Sprite.WALL:
+				sprite = new Tile(Sprite.WALL, gameX, gameY);
 				break;
 			default:
 				sprite = new Sprite(spType, gameX, gameY);
@@ -117,9 +120,7 @@ public class Loader {
 				String[] linedata = line.split(CSVSplit);
 				if (linedata[0].equals(Sprite.FLOOR) 
 						| linedata[0].equals(Sprite.TARGET) 
-						| linedata[0].equals(Sprite.SWITCH)
-						| linedata[0].equals(Sprite.CRACKED_WALL)
-						| linedata[0].equals(Sprite.DOOR)) {
+						| linedata[0].equals(Sprite.SWITCH)) {
 					
 					/*if it is tile type , we load it first
 					 **/

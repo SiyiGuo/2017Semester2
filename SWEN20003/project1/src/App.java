@@ -27,7 +27,7 @@ public class App extends BasicGame
     public static final String IMAGE_SUFFIX = ".png";
     /** where the image store */
     public static final String IMAGE_FOLDER = "res/";
-    /**this is in miliseconds, so we want miinimum to be 0.1 seconds **/
+    /**this is in miliseconds, so we want minimum update interval to be 0.1 seconds **/
     public static final int MIN_UPDATE_INTERVAL = 100; 
     
     private World world;
@@ -54,7 +54,7 @@ public class App extends BasicGame
     {
         // Get data about the current input (keyboard state).
         Input input = gc.getInput();
-        //world.update(input, delta);
+        world.update(input, delta);
     }
 
     /** Render the entire screen, so it reflects the current game state.
