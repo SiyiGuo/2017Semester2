@@ -31,7 +31,7 @@ public class World {
     
     /*instance variable relate to specific world*/
     /* initialise the star level*/
-    private static int level = LEVEL0;
+    private static int level = LEVEL2;
     
 	/*Game's width and height*/
 	private static int gameWidth = UNDEFINED;
