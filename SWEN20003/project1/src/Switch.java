@@ -20,8 +20,12 @@ public class Switch extends Tile{
 	}
 	
 	public boolean blockOnIt() {
-		if (World.getTopSprite(super.getPosition()) != null) {
-			return true;
+		Sprite topSprite = World.getTopSprite(super.getPosition());
+		if (topSprite != null) {
+			if (topSprite instanceof Block) {
+				return true;
+			}
+			return false;
 		} else {
 			return false;
 		}

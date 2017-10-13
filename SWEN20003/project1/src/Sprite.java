@@ -5,6 +5,10 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 
 public class Sprite {
+	/**
+	 * The class which all gaming object inherited from
+	 */
+	
 	/** TILE **/
 	public static final String FLOOR = "floor";
 	public static final String WALL = "wall";
@@ -29,10 +33,7 @@ public class Sprite {
     /** Player **/
     public static final String PLAYER = "player";
     public static final String PLAYERFILE = "player_left";
-    
-    /*TODO destroy this variable*/
-    public static Sprite[] sprites = null; //this variable shoudl be destroyed once everything finished////
-    
+
 	//inside Sprite Class we deals with screen coordinate
 	protected String tileType = "";
 	protected Image image = null;
@@ -80,8 +81,9 @@ public class Sprite {
 	}
 	
 	/**
-	 * Collision function
-	 * 
+	 * Collision function which illustrate what happened when play contact with this object
+	 * @param Position the position which Player come from
+	 * @return false if player can be update, true if no need for player to update
 	 */
 	public boolean collisionEffect(Position fromPosition) {
 		return false;
@@ -91,26 +93,32 @@ public class Sprite {
 	
 	
 	/**
-	 * Extra helper function for reading and showing data 
-	 * All the setter and getter for the class
-	 * Which tellse class's basic information
-	 */	
+	 * @return what type of this sprite is
+	 */
 	public String getTileType() {
 		return tileType;
 	}
 	
+	/**
+	 * @return the position of sprite
+	 */
 	public Position getPosition() {
 		return gamePosition;
 	}
 	
+	/**
+	 * Update the image of this sprite
+	 * @param newImage the new image
+	 */
 	public void setImage(Image newImage) {
 		image = newImage;
 	}
 	
+	/**
+	 * Update position of the sprite
+	 * @param position the new position
+	 */
 	public void setPosition(Position position) {
 		this.gamePosition = position;
-	}
-	public void printInfo(){
-		System.out.println(tileType + " " + Float.toString(gamePosition.gameX) +" " + Float.toString(gamePosition.gameY));
 	}
 }

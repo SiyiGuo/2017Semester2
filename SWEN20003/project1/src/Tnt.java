@@ -30,7 +30,16 @@ public class Tnt extends Block{
 	}
 	
 	public void render(Graphics g, int gameWidth, int gameHeight) {
-		super.render(g, gameWidth, gameHeight);
+		Position gamePosition = super.getPosition();
+		float scrX = (App.SCREEN_WIDTH - gameWidth * App.TILE_SIZE) / 2 
+				+ gamePosition.gameX * App.TILE_SIZE
+				+ App.TILE_SIZE /2;
+		float scrY = (App.SCREEN_HEIGHT - gameHeight * App.TILE_SIZE) / 2
+				+ gamePosition.gameY * App.TILE_SIZE
+				+ App.TILE_SIZE / 2;
+		
+		image.drawCentered(scrX, scrY);
+		
 		update(World.getTimeCount());
 	}
 	

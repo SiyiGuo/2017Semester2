@@ -4,11 +4,15 @@ import java.io.IOException;
 import java.util.*;
 
 public class Loader {	    
+	/**
+	 * Loader class whcih is used to loading all sprites in current level given the map file
+	 */
 		
     /** Loading the Sprites Given a map's file
      * And return a 3-dimension array of Sprite
-     * with [x][y][top_bottom] for index
+     * with [x][y][top_mid_bottom] for index
      * @param filename, a .lvl file in csv format
+     * @return a 3-dimension array of sprite of current level
      */
 	public static Sprite[][][] loadSprites(String filename) {
 		/*level[0] basic data about width, height, size
@@ -77,10 +81,11 @@ public class Loader {
 	 * @param spType: A string specific what type is it
 	 * @param gameX: the x coordinate
 	 * @param gameY: the Y coordinate
+	 * @return the sprite which being created
 	 */
 	private static Sprite createSprite(String spType, int gameX, int gameY) {
 		Sprite sprite = null;
-		
+		//Create the object according to what they are
 		switch (spType) {
 			//Player
 			case Sprite.PLAYER:
@@ -138,7 +143,8 @@ public class Loader {
 	
 	/** read the csv map and return an array of array
 	 * {{width, height}, typeArray, XArray, YArray, TOP_BOTTOM Array}
-     * @param filename
+     * @param filename map file
+     * @return an array of array {{width, height}, typeArray, XArray, YArray, TOP_BOTTOM Array}
      */
 	private static String[][] readCSV(String filename){ 
 		/*in reading CSV, we do the sorting at the same data

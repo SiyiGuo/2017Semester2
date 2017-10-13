@@ -1,6 +1,15 @@
 
 public class Stone extends Block{
-
+	/**
+	 * The stone class which used to create stone object
+	 */
+	
+	/**
+	 * Stone constructor 
+	 * @param image_src the image file which stone has
+	 * @param csvX the X coordinate which read from csv file
+	 * @param csvY the Y coordinate which read from csv file
+	 */
 	public Stone(String image_src, int csvX, int csvY) {
 		super(image_src, csvX, csvY);
 	}

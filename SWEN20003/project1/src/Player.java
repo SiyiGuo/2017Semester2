@@ -1,14 +1,24 @@
 import org.newdawn.slick.Input;
 
 public class Player extends Sprite{
+	/**
+	 * This is the player class used to create player
+	 * Which is also upda method
+	 */
 	
-	//Constructor
+	/**
+	 * constructor for the player
+	 * @param image_src the player image file
+	 * @param x the X coordinate read from csv
+	 * @param y the Y coordinate read from csv
+	 */
 	public Player(String image_src, int x, int y) {
 		super(Sprite.PLAYERFILE, x, y);
 	}
 	
 	/**
 	 * Thake the input and updat the Player
+	 * @param update
 	 */
 	public void update(Input input) {
 		//calculating the next Position which player will move to
@@ -61,6 +71,7 @@ public class Player extends Sprite{
 				}
 			}
 			
+			//We then updae switch, rogue and mage after player changed
 			Switch sswitch = World.getSwitch();
 			if (sswitch != null) {
 				sswitch.update();
