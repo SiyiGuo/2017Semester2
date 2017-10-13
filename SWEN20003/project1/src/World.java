@@ -4,7 +4,9 @@ import org.newdawn.slick.Input;
 
 public class World {
 	/*Time constqant*/
-	public static final int ONESECOND = 10; //as min time update interval is 0.1 seconds, 10 updates means 1 second
+	public static final int ONESECOND = 100; //as min time update interval is 0.1 seconds, 10 updates means 1 second
+	public static final int ZEROPOINT4Seconds = 40;
+	public static final int ZEROPOINT25Seconds = 25;
 	
 	/*Sprite Structure on a single place*/
 	public static final int UNDEFINED = -1;
@@ -25,10 +27,10 @@ public class World {
     public static final int LEVEL5 = 5;
     public static final String MAPROOT = "res/levels/";
     public static final String MAPSUFFIX = ".lvl";
-    public static int[] levels = {LEVEL0, LEVEL1, LEVEL2, LEVEL3, LEVEL4, LEVEL5};
+    private static int[] levels = {LEVEL0, LEVEL1, LEVEL2, LEVEL3, LEVEL4, LEVEL5};
     
     /*instance variable relate to specific world*/
-    private static int level = LEVEL3;
+    private static int level = LEVEL0;
 	
 	/*Game's width and height*/
 	private static int gameWidth = UNDEFINED;
@@ -46,7 +48,9 @@ public class World {
 	private static Skeleton skeleton = null;
 	private static Rogue rogue = null;
 	private static Mage mage = null;
+	private static Switch sswitch = null;
 	private static Tile[] targets = null;
+	
 	
 	
 	/*Constructor for the world*/
@@ -73,7 +77,7 @@ public class World {
 				//Save the Original Position of Skeleton
 				skeleton.update(timeCount);
 			}
-			
+						
 			//updating the Player
 			player.update(input);
 			
@@ -104,7 +108,7 @@ public class World {
 			}
 		}
 		
-		/*Loading the NPC*/
+		/*Loading the Player*/
 		if (player != null) {
 			player.render(g, gameWidth, gameHeight);
 		}
@@ -143,7 +147,7 @@ public class World {
 		//Empty the History
 		historyMove = new ArrayList<SingleHistory[]>();
 		//Find the reference to all the Npc and Player Sprite
-		findPlayerNpcTargets();
+		findPlayerNpcTargetsSwitch();
 	}
 	
 	public static void restartLevel(){
@@ -151,7 +155,7 @@ public class World {
 	}
 	
 	/*function called when Initialize the level*/
-	public static void findPlayerNpcTargets() {
+	public static void findPlayerNpcTargetsSwitch() {
 		ArrayList<Tile> targetList = new ArrayList<Tile>();
 		for(int i = 0; i < gameWidth; i++) {
 			for(int j = 0; j < gameHeight; j++) {
@@ -170,6 +174,14 @@ public class World {
 						
 						if (tileType.equals(Sprite.ROGUE)) {
 							rogue = (Rogue)sprite;
+						}
+						
+						if (tileType.equals(Sprite.MAGE)) {
+							mage = (Mage)sprite;
+						}
+						
+						if (tileType.equals(Sprite.SWITCH)) {
+							sswitch = (Switch)sprite;
 						}
 						
 						if (tileType.equals(Sprite.TARGET)) {
@@ -206,6 +218,10 @@ public class World {
 			historyMove.remove(historyMove.size() - 1);			
 			for (int i = lastUpdateChanges.length - 1; i >=0; i--) {
 				SingleHistory singleSpChange = lastUpdateChanges[i];
+				
+				if (singleSpChange == null){
+					continue;
+				}
 				
 				Position nowPos = singleSpChange.newPos;
 				Position beforePos = singleSpChange.oldPos;
@@ -253,6 +269,23 @@ public class World {
 	}
 	
 	public static boolean isBlocked(Position target) {
+		//if switch exist in this level
+		if (sswitch != null) {
+			Sprite tempSprite= sprites[target.gameX][target.gameY][MID_SPRITE];
+			if (tempSprite != null) {
+				if (tempSprite.getTileType().equals(Sprite.DOOR)){
+					System.out.println("Checking door");
+					Door door = (Door)sprites[target.gameX][target.gameY][MID_SPRITE];
+					if(door.isOpen()) {
+						return false;
+					} else {
+						return true;
+					}			
+				}
+			}
+		}
+		
+		//If switch does not exist, we just check top sprite
 		if (sprites[target.gameX][target.gameY][TOP_SPRITE] != null) {
 			String spriteType = sprites[target.gameX][target.gameY][TOP_SPRITE].getTileType();
 			switch (spriteType) {
@@ -260,6 +293,13 @@ public class World {
 					return true;
 				case Sprite.CRACKED_WALL:
 					return true;
+				case Sprite.TNT:
+					Tnt tnt = (Tnt)sprites[target.gameX][target.gameY][TOP_SPRITE];
+					if (tnt.isExploding()) {
+						return true;
+					} else {
+						return false;
+					}
 				default:
 					return false;
 			}
@@ -273,6 +313,14 @@ public class World {
 		moveCount++;
 	}
 	
+	public static Switch getSwitch() {
+		return sswitch;
+	}
+	
+	public static Player getPlayer() {
+		return player;
+	}
+	
 	public static Rogue getRogue() {
 		return rogue;
 	}
@@ -281,6 +329,9 @@ public class World {
 		return mage;
 	}
 	
+	public static int getTimeCount() {
+		return timeCount;
+	}
 	/**
 	 * This function take a Sprite's original Position and Move it to New Position
 	 * @param sprite teh Sprite that need to be changed
@@ -294,6 +345,43 @@ public class World {
 		} else {
 			return sprites[index.gameX][index.gameY][BOT_SPRITE];
 		}
+	}
+	
+	public static void setTopSprite(Position newPos, Position oldPos) {
+		//get Original Sprite as Cargo
+		Sprite sprite = sprites[oldPos.gameX][oldPos.gameY][TOP_SPRITE];
+		
+		//Move the  sprite to new Position
+		sprites[newPos.gameX][newPos.gameY][TOP_SPRITE] = sprite;
+				
+		//destroy original sprite
+		sprites[oldPos.gameX][oldPos.gameY][TOP_SPRITE] = null;
+		
+		
+	}
+	
+	public static void destroySprite(Position index) {
+		sprites[index.gameX][index.gameY][TOP_SPRITE] = null;
+	}
+	
+	public static void destroyTntHistory() {
+		for (SingleHistory[] singleHistoryMove: historyMove) {
+			int index = 0;
+			for (SingleHistory eachChange: singleHistoryMove) {
+				if (eachChange != null) {
+					if (eachChange.nowSprite != null) {
+						if (eachChange.nowSprite.getTileType().equals(Sprite.TNT)){
+							singleHistoryMove[index]= null;
+						}
+					}
+				}
+				index++;
+			}
+		}
+	}
+	
+	public static Sprite getTopSprite(Position index) {
+		return sprites[index.gameX][index.gameY][TOP_SPRITE];
 	}
 	
 }

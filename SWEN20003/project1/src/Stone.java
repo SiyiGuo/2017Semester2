@@ -37,7 +37,7 @@ public class Stone extends Block{
 		if (nxtSprite instanceof Block || 
 			nxtSprite.getTileType().equals(Sprite.WALL) ||
 			nxtSprite instanceof CrackedWall||
-			nxtSprite instanceof Door ||
+			(nxtSprite instanceof Door && !(((Door)nxtSprite).isOpen()))||
 			nxtSprite instanceof Npc){
 			return false;
 		} else {

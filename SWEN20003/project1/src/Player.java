@@ -60,9 +60,20 @@ public class Player extends Sprite{
 					//As they move each time Players made a Move
 				}
 			}
+			
+			Switch sswitch = World.getSwitch();
+			if (sswitch != null) {
+				sswitch.update();
+			}
+			
 			Rogue rogue = World.getRogue();
 			if (rogue != null) {
 				rogue.update();
+			}
+			
+			Mage mage = World.getMage();
+			if (mage != null) {
+				mage.update();
 			}
 		}
 	}

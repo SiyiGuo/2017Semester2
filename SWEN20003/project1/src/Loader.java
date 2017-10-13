@@ -34,6 +34,10 @@ public class Loader {
 		/* Inside for loop , read all data from csv
 		 * and create the object
 		 */
+		//Since only one door and one switch each level
+		//and only switch need to know where is door
+		Door door = null;
+		Switch sswitch = null;
 		for (int i = 0; i < size; i++) {
 			//read tile data
 			int x = Integer.parseInt(level[2][i]);
@@ -46,6 +50,12 @@ public class Loader {
 			
 			//create sprite object and add to the arrayList
 			Sprite sprite = createSprite(spType,gameCoor[0],gameCoor[1]);
+			if (spType.equals(Sprite.SWITCH)){
+				sswitch = (Switch)sprite;
+			}
+			if (spType.equals(Sprite.DOOR)){
+				door = (Door)sprite;
+			}
 			if (spToporBottom.equals(World.TOP)){
 				sprites[x][y][World.TOP_SPRITE] = sprite;
 			} else if (spToporBottom.equals(World.MIDDLE)){
@@ -53,6 +63,10 @@ public class Loader {
 			}else {
 				sprites[x][y][World.BOT_SPRITE] = sprite;
 			}
+		}
+		
+		if (sswitch != null){
+			sswitch.addDoor(door);
 		}
 		//create object for player model
 		return sprites;
@@ -66,6 +80,7 @@ public class Loader {
 	 */
 	private static Sprite createSprite(String spType, int gameX, int gameY) {
 		Sprite sprite = null;
+		
 		switch (spType) {
 			//Player
 			case Sprite.PLAYER:
@@ -79,19 +94,27 @@ public class Loader {
 			case Sprite.ROGUE:
 				sprite = new Rogue(Sprite.ROGUE, gameX, gameY);
 				break;
-			
-			
+			case Sprite.MAGE:
+				sprite = new Mage(Sprite.MAGE, gameX, gameY);
+				break;
+		
 			//Lower Tiles
 			case Sprite.TARGET:
 				sprite = new Tile(Sprite.TARGET, gameX, gameY);
 				break;
 			
-				//Upper Tiles
+			//Upper Tiles
 			case Sprite.CRACKED:
 				sprite = new CrackedWall(Sprite.CRACKED_WALL, gameX, gameY);
 				break;
 			case Sprite.WALL:
 				sprite = new Tile(Sprite.WALL, gameX, gameY);
+				break;
+			case Sprite.SWITCH:
+				sprite = new Switch(Sprite.SWITCH, gameX, gameY);
+				break;
+			case Sprite.DOOR:
+				sprite = new Door(Sprite.DOOR, gameX, gameY);
 				break;
 			
 			//all blocks
@@ -155,7 +178,9 @@ public class Loader {
 					spX.add(0,linedata[1]);
 					spY.add(0,linedata[2]);
 					spTB.add(0, World.BOTTOM);
-				} else if(linedata[0].equals(Sprite.TARGET) || linedata[0].equals(Sprite.SWITCH)) {
+				} else if(linedata[0].equals(Sprite.TARGET) 
+						|| linedata[0].equals(Sprite.SWITCH)
+						|| linedata[0].equals(Sprite.DOOR)) {
 					spType.add(0,linedata[0]);
 					spX.add(0,linedata[1]);
 					spY.add(0,linedata[2]);

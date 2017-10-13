@@ -94,13 +94,17 @@ public class Sprite {
 	 * Extra helper function for reading and showing data 
 	 * All the setter and getter for the class
 	 * Which tellse class's basic information
-	 */
+	 */	
 	public String getTileType() {
 		return tileType;
 	}
 	
 	public Position getPosition() {
 		return gamePosition;
+	}
+	
+	public void setImage(Image newImage) {
+		image = newImage;
 	}
 	
 	public void setPosition(Position position) {
