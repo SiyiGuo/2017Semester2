@@ -1,10 +1,10 @@
-This is pdfTeX, Version 3.1415926-2.3-1.40.12 (MiKTeX 2.9) (preloaded format=pdflatex 2017.9.2)  4 SEP 2017 16:25
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (MiKTeX 2.9) (preloaded format=pdflatex 2017.9.2)  19 OCT 2017 15:08
 entering extended mode
-**C:/Users/Siyi/OneDrive/UNIMELB/2017-Semester2/COMP30026/Assignment1/Assignmen
-t1.tex
-
-(C:/Users/Siyi/OneDrive/UNIMELB/2017-Semester2/COMP30026/Assignment1/Assignment
+**C:/Users/Siyi/Documents/GitHub/2017Semester2/COMP30026/Assignment1/Assignment
 1.tex
+
+(C:/Users/Siyi/Documents/GitHub/2017Semester2/COMP30026/Assignment1/Assignment1
+.tex
 LaTeX2e <2011/06/27>
 Babel <v3.8m> and hyphenation patterns for loaded.
 (C:\CTEX\MiKTeX\tex\latex\base\article.cls
@@ -328,8 +328,8 @@ File: tikzlibrarytopaths.code.tex 2008/06/17 v2.10 (rcs-revision 1.2)
 de.tex
 File: tikzlibrarycalc.code.tex 2009/09/04 v2.10 (rcs-revision 1.6)
 )
-(C:\Users\Siyi\OneDrive\UNIMELB\2017-Semester2\COMP30026\Assignment1\Assignment
-1.aux)
+(C:\Users\Siyi\Documents\GitHub\2017Semester2\COMP30026\Assignment1\Assignment1
+.aux)
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 17.
 LaTeX Font Info:    ... okay on input line 17.
 LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 17.
@@ -402,21 +402,21 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 
 {C:/CTEX/UserData/pdftex/config/pdftex.map{Unicode.sfd}{UGBK.sfd}}]
 [2] [3]
-(C:\Users\Siyi\OneDrive\UNIMELB\2017-Semester2\COMP30026\Assignment1\Assignment
-1.aux) ) 
+(C:\Users\Siyi\Documents\GitHub\2017Semester2\COMP30026\Assignment1\Assignment1
+.aux) ) 
 Here is how much of TeX's memory you used:
  10025 strings out of 495354
- 188292 string characters out of 3183860
+ 188285 string characters out of 3183860
  233123 words of memory out of 3000000
  13025 multiletter control sequences out of 15000+200000
  6984 words of font info for 25 fonts, out of 3000000 for 9000
  14 hyphenation exceptions out of 8191
- 56i,6n,55p,491b,648s stack positions out of 5000i,500n,10000p,200000b,50000s
-<C:/CTEX/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/CTEX/MiKT
-eX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/CTEX/MiKTeX/fonts/type1/public
-/amsfonts/cm/cmr10.pfb><C:/CTEX/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb>
-<C:/CTEX/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/CTEX/MiKTeX/fonts
-/type1/public/amsfonts/cm/cmsy8.pfb>
+ 56i,6n,55p,490b,648s stack positions out of 5000i,500n,10000p,200000b,50000s
+<C:/CTEX/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/CTEX/MiKTe
+X/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/CTEX/MiKTeX/fonts/type1/public/
+amsfonts/cm/cmr10.pfb><C:/CTEX/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><
+C:/CTEX/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/CTEX/MiKTeX/fonts/
+type1/public/amsfonts/cm/cmsy8.pfb>
 Output written on Assignment1.pdf (3 pages, 79646 bytes).
 PDF statistics:
  39 PDF objects out of 1000 (max. 8388607)

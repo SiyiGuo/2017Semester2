@@ -1,0 +1,52 @@
+\documentclass[11pt]{article}
+
+%page setup
+\pagestyle{empty}
+\textwidth 166mm
+\textheight 256mm
+\topmargin -12mm
+\oddsidemargin -2mm
+\evensidemargin -2mm
+
+%logic command setup
+
+\begin{document}
+\subsection*{Question5}
+\begin{enumerate}
+
+%QUESTIONA
+\item
+The definition is:
+\[
+\begin{array}{lr}
+	L_r\  =\ \{x \in \{e,n,w,s\}^*\ | \\ x \ contains\ equal\ number\  of\ n\ and\ s, and\ equal\ number\ of\ e\ and\ w\}
+\end{array}
+\]
+
+%QUESTIONB
+\item
+$\forall p$, take the string $e^pn^pw^ps^p$, then partitioned it into $uvxyz$ with $|vxy|\leq p$:\\
+then $uvxyz$ can be partitioned into this ways:\\
+(1), $vxy$ are all in $n^p$ or $s^p$, in this case, $uv^2xy^2z$ are not in $L_r$ due to unequal number of n and s, or e and w\\
+(2), $xy$ have the samce character, this can be seqrate into two cases:\\
+\hspace*{2em} v have different character from xy: in this case, v can be $e..e,n..n,w..w$, corresonding xy can be $n..w,w..w,s..s$. So $uv^2xy^2$ will fail for breaking both the balance in e and w, n and s. so it is not in $L_r$\\
+\hspace*{2em} v  = a..ab..b, a is the character, b is the character that xy both have: in this case, v can be $e..en..n, n..nw..w, w..ws..s$, corresponding xy is $n..n,w..w,s..s$ . So $uv^2xy^2$ will fail for breaking both the balance in e and w, n and s. so it is not in $L_r$.\\
+(3), $vx$ have the same character, this can be separate into to cases:\\
+\hspace*{2em} y have different character from xy: in this case, y can be $n..n,w..w,s..s$, corresonding vx can be $e..e,n..n,w..w$. So $uv^2xy^2$ will fail for breaking both the balance in e and w, n and s. so it is not in $L_r$\\
+\hspace*{2em} y  = a..ab..b, a is the character, a is the character that vx both have: in this case, y can be $e..en..n, n..nw..w, w..ws..s$, corresponding xy is $e..e,n..n,w..w$ . So $uv^2xy^2$ will fail for breaking both the balance in e and w, n and s. so it is not in $L_r$.\\
+Therefore, by discussing this cases of separating uvxyz, we proved that this is not context free.
+
+\item
+The grammar is as followed:
+\[
+\begin{array}{lr}
+	G\rightarrow AG|\epsilon\hspace*{5em} G'\rightarrow BG'|\epsilon \\
+	A\rightarrow E | W | \epsilon |n | s\hspace*{2.5em} B\rightarrow N|S|\epsilon|n|s \\
+	E\rightarrow eGw \hspace*{5em}N\rightarrow nG's\\
+	W\rightarrow wGe \hspace*{4.5em}S\rightarrow sG'n
+\end{array}
+\]
+
+\end{enumerate}
+
+\end{document}
